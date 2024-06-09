@@ -5,15 +5,15 @@ import Main from './components/Main'
 
 function App() {
   const [count, setCount] = useState(0)
-  const [itemApp, setItemApp] = useState(['short task'])
-  const [secItem, setSecItem] = useState(['long task'])
+  const [sTask, setsTask] = useState(['short task'])
+  const [lTask, setlTask] = useState(['long task'])
 
   return (
     <>
-      <Header item="item" setItemApp={setItemApp} itemApp={itemApp}  secItem={secItem} setSecItem={setSecItem}/>
+      <Header setsTask={setsTask} sTask={sTask}  lTask={lTask} setlTask={setlTask}/>
 
       
-      <Main itemApp={itemApp} secItem={secItem} />
+      <Main sTask={sTask} lTask={lTask} />
     </>
   )
 }

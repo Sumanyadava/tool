@@ -4,11 +4,11 @@ import TodoInput from "./TodoInput";
 
 // codedept change classname
 
-const Todo = () => {
+const Todo = ({ ele }) => {
   return (
     <div>
       <div className=" border bg-base-300 h-[600px] w-[400px] rounded-xl">
-        <TodoInput />
+        <TodoInput ele={ele} />
         <div className=" todo_body flex items-start  bg-green-20 flex-col">
           <div className="sort h-5 w-full flex justify-end gap-3">
             <input type="radio" name="radio-8" className="radio h-5 w-5" />
@@ -33,8 +33,6 @@ const Todo = () => {
           </div>
 
           <div className="body_content w-full px-5 ">
-            
-
             <SubTodo />
             <SubTodo />
           </div>

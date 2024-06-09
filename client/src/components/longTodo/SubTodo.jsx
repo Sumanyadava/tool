@@ -9,8 +9,8 @@ const SubTodo = () => {
         <div className="leftside w-[65%] h-full ">
           <div className="content flex items-center justify-center h-full w-full text-black font-semibold text-3xl ">
             <h1 className="indicator">
-            asdasds
-            <span className="indicator-item badge bg-red-500"></span>
+            asd asds
+            <span className="indicator-item badge bg-yellow-500">imp & urg</span>
             
             </h1>
             
