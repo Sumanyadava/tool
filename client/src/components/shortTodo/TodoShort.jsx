@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TodoShortTask from "./TodoShortTask";
+import { useSelector ,useDispatch } from "react-redux";
+import { shortTaskAdd } from "../../action";
 
-const TodoShort = ({ ele }) => {
+const TodoShort = ({ elem, id }) => {
   const [shortText, setShortText] = useState("");
-  const [shortTask, setShortTask] = useState([]);
+
+  const dispatch = useDispatch()
+  const shortTaskArray = useSelector(state => state.shortTaskReducer[id]) || []
 
   const handleShortTask = () => {
-    if (shortText !== "") {
-      setShortTask([...shortTask, shortText]);
+    const trimText = shortText.trim()
+    if (trimText.length == 0) {
+      alert("write something in short task");
     } else {
-      alert("empty");
+      dispatch(shortTaskAdd(id,trimText))
+      console.log(id,shortText,shortTaskArray)
+      setShortText("")
+    
+      
     }
   };
+
+
+
   return (
     <div className="">
       <div className=" border bg-base-300 h-[500px] w-[400px] rounded-xl">
@@ -19,18 +31,19 @@ const TodoShort = ({ ele }) => {
           <input
             type="text"
             className="input"
-            placeholder={ele}
+            placeholder={elem}
             onChange={(e) => {
               setShortText(e.target.value);
             }}
             value={shortText}
           />
           <button className="btn" onClick={handleShortTask}>
-            Add
+            Addd 
           </button>
         </div>
         <div className="overflow-y-scroll h-[80%]">
-          {shortTask.map((ele, index) => {
+          
+          {shortTaskArray.map((ele, index) => {
             return <TodoShortTask key={index} ele={ele} />;
           })}
         </div>

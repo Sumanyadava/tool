@@ -1,27 +1,78 @@
-import React from "react";
+import React, { useState } from "react";
 import ImpUrg from "./ImpUrg";
+import { useDispatch } from "react-redux";
+import { longTaskAdd } from "../../action";
 
-const TodoInput = ({ ele }) => {
+const TodoInput = ({ elem, id }) => {
+  const [inputInTodo, setInputInTodo] = useState({
+    title: "",
+    deadline: "",
+    tag: "",
+  });
+
+  const date = new Date();
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  if (month < 10) {
+    month = '0' + month;
+  }
+  let year = date.getFullYear();
+
+  let currentDate = `${year}-${month}-${day}`;
+
+  const dispatch = useDispatch();
+
+  const handleTodoInput = () => {
+    const trimLongText = inputInTodo.title.trim();
+    if (trimLongText.length == 0) {
+      alert("write something in long task");
+    } else if (inputInTodo.deadline.length == 0) {
+      alert("select deadline");
+    } else if (inputInTodo.tag.length == 0) {
+      alert("write something in select tag");
+    } else {
+      dispatch(longTaskAdd(id, inputInTodo));
+
+      setInputInTodo({
+        title: "",
+        deadline: "",
+        tag: "",
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col w-full gap-2 bg-red-400 p-2">
-      <div className="col_1 w-full flex justify-around">
-        <input className="input w-[90%]" placeholder={ele} />
+      <div className="col_1 w-full flex justify-around ">
+        <input
+          className="input w-[90%]"
+          placeholder={elem}
+          value={inputInTodo.title}
+          onChange={(e) => {
+            setInputInTodo((prev) => ({ ...prev, title: e.target.value }));
+          }}
+        />
       </div>
       <div className="col_2  w-full flex justify-around items-center">
-        <div
-          className="tooltip "
-          data-tip="Deadline"
-        >
-          <input type="date" placeholder="deadline" className="input " />
+        <div className="tooltip " data-tip="Deadline">
+          <input
+            type="date"
+            placeholder="deadline"
+            min={currentDate}
+            className="input "
+            value={inputInTodo.deadline}
+            onChange={(e) => {
+              setInputInTodo((prev) => ({ ...prev, deadline: e.target.value }));
+            }}
+          />
         </div>
-        <div
-          className="tooltip "
-          data-tip="Category"
-        >
-          <ImpUrg />
+        <div className="tooltip " data-tip="Category">
+          <ImpUrg setInputInTodo={setInputInTodo} inputInTodo={inputInTodo} />
         </div>
 
-        <button className="btn btn-secondary">Add</button>
+        <button className="btn btn-secondary" onClick={handleTodoInput}>
+          Add
+        </button>
       </div>
     </div>
   );

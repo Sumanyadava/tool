@@ -1,8 +1,8 @@
-const initalState = ["addreducer"];
+const initalStateShort = ["Short Todo"];
 
-const todoChanger = (state = initalState, action) => {
+export const shortTodoReducer = (state = initalStateShort, action) => {
   switch (action.type) {
-    case "ADD_TODO":
+    case "SHORT_ADD_TODO":
       return [...state, action.payload];
 
     case "REMOVE_TODO":
@@ -13,5 +13,19 @@ const todoChanger = (state = initalState, action) => {
   }
 };
 
-export default todoChanger
+
+
+// ---long todo -----------
+
+const initalStateLong = ['Long Todo']
+
+export const longTodoReducer = (state = initalStateLong,action) => {
+  switch (action.type) {
+    case "LONG_ADD_TODO":
+      return [...state,action.payload]
+  
+    default:
+      return state;
+  }
+}
 

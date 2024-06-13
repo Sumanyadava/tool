@@ -1,25 +1,50 @@
+const ActionTypes = {
+  INCREMENT: 'INCREMENT',
+  DECREMENT: 'DECREMENT',
+  SHORT_ADD_TODO: 'SHORT_ADD_TODO',
+  LONG_ADD_TODO:"LONG_ADD_TODO",
+  SHORT_ADD_TASK:"SHORT_ADD_TASK",
+  LONG_ADD_TASK:"LONG_ADD_TASK",
+  
+}
+
 export const IncAction = (num) => {
   return {
-    type: "INCREMENT",
+    type: ActionTypes.INCREMENT,
     payload: num,
   };
 };
 
 export const DecAction = () => {
   return {
-    type: "DECREMENT",
+    type: ActionTypes.DECREMENT,
   };
 };
 
-export const TodoAdd = () => {
+export const shortTodoAdd = (inputTodo) => {
   return {
-    type: "ADD_TODO",
-    payload: "new todo",
+    type: ActionTypes.SHORT_ADD_TODO,
+    payload: (inputTodo || "default short"),
   };
 };
-export const RemoveTodo = () => {
-    return {
-      type: "REMOVE_TODO",
-      payload: "new todo",
-    };
-  };
+
+export const longTodoAdd = (input) => {
+  return{
+    type:ActionTypes.LONG_ADD_TODO,
+    payload:(input||"Default")
+  }
+}
+
+export const shortTaskAdd = (id,task) => {
+  return {
+    type:ActionTypes.SHORT_ADD_TASK,
+    payload:{id,task}
+  }
+}
+
+export const longTaskAdd = (id,input) => {
+  return {
+    type:ActionTypes.LONG_ADD_TASK,
+    payload:{id,input}
+  }
+}

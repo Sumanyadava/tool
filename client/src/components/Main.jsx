@@ -1,31 +1,38 @@
 import React, { useState } from "react";
-import { Reorder } from "framer-motion";
 import Todo from "./longTodo/Todo";
-import sTodo from "./shortTodo/TodoShort";
 import TodoShort from "./shortTodo/TodoShort";
+import { useSelector } from "react-redux";
 
-const Main = ({ sTask, lTask }) => {
+const Main = () => {
+
+  // reducers 
+  const shortTodoArray = useSelector((state) => state.shortTodoReducer)
+  const longTodoArray = useSelector((state) => state.longTodoReducer)
 
   
-  const [longText,setLongText] = useState("")
+
 
   
   return (
     <div>
       <div className="layout w-full  flex flex-wrap justify-center gap-10 py-10">
 
-        {sTask.map((ele, index) => {
+        
+        {shortTodoArray.map((ele, index) => {
           return (
-            <TodoShort ele={ele} key={index} />
+            <TodoShort elem={ele} key={index} id={index} />
           );
         })}
 
-        {lTask.map((ele, index) => {
+        {longTodoArray.map((elem, index) => {
           return (
-            <Todo ele={ele} key={index} />
+            <Todo elem={elem} key={index} id={index} />
 
           );
         })}
+
+        
+
 
         
         
