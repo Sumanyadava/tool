@@ -9,10 +9,10 @@ const Todo = ({ elem, id }) => {
   const longTaskArray = useSelector((state) => state.longTaskReducer[id]) || [];
   return (
     <div>
-      <div className=" border bg-base-300 h-[600px] w-[400px] rounded-xl ">
+      <div className="  h-[600px] w-[400px] rounded-xl text-black bg-error">
         <TodoInput elem={elem} id={id} />
 
-        <div className=" todo_body flex items-start  bg-green-20 flex-col overflow-y-scroll h-[80%]">
+        <div className=" todo_body flex items-start  bg-green-20 flex-col  h-[80%] ">
           <div className="sort h-5 w-full flex justify-end gap-3 ">
             <input type="radio" name="radio-8" className="radio h-5 w-5" />
 
@@ -35,7 +35,7 @@ const Todo = ({ elem, id }) => {
             />
           </div>
 
-          <div className="body_content w-full px-5 ">
+          <div className="body_content w-full px-5 overflow-y-scroll no-scrollbar">
             {longTaskArray.map((ele, index) => {
               return <SubTodo key={index} ele={ele} />;
             })}

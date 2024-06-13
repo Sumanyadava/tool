@@ -1,39 +1,40 @@
 DB design: https://excalidraw.com/#json=nPXnhgGj8rLl0KRYctfv1,7mhDeSEZXhlgt9wWkPj0jQ
 
-# layout 
+# layout
+
 Responsive
 Long Task
 Short Task
 
-connect short and long task 
+connect short and long task
 
-short input connected 
+short input connected
 
 redux
 
-redux integration short and long todo 
+redux integration short and long todo
 
-redux short task 
+redux short task
 
-redux long task 
+redux long task
 
 every task added at one redux --
 
-every task added given its one id 
+every task added given its one id
 
+const initalStateLongTask =
+{
+[0]: [{
+title: "tiads",
+deadline: 2,
+tag: "tags",
+}],
+}
 
-const initalStateLongTask = 
-  {
-    [0]: [{
-      title: "tiads",
-      deadline: 2,
-      tag: "tags",
-    }],
-  }
-
-validation 
+validation
 
 colors functions like page --
 
+chosing colors =>
 
-
+backgrounds = Gradients - [https://in.pinterest.com/pin/777856166920039175/ ] - more like this

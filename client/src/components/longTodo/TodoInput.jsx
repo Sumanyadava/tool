@@ -42,10 +42,10 @@ const TodoInput = ({ elem, id }) => {
   };
 
   return (
-    <div className="flex flex-col w-full gap-2 bg-red-400 p-2">
-      <div className="col_1 w-full flex justify-around ">
+    <div className="flex flex-col w-full gap-2 p-2 rounded-lg glass">
+      <div className="col_1 w-full flex justify-around">
         <input
-          className="input w-[90%]"
+          className="input w-[90%] bg-secondary"
           placeholder={elem}
           value={inputInTodo.title}
           onChange={(e) => {
@@ -59,18 +59,18 @@ const TodoInput = ({ elem, id }) => {
             type="date"
             placeholder="deadline"
             min={currentDate}
-            className="input "
+            className="input bg-secondary "
             value={inputInTodo.deadline}
             onChange={(e) => {
               setInputInTodo((prev) => ({ ...prev, deadline: e.target.value }));
             }}
           />
         </div>
-        <div className="tooltip " data-tip="Category">
+        <div className="tooltip bg-secondary p-1 rounded-md" data-tip="Category">
           <ImpUrg setInputInTodo={setInputInTodo} inputInTodo={inputInTodo} />
         </div>
 
-        <button className="btn btn-secondary" onClick={handleTodoInput}>
+        <button className="btn btn-accent" onClick={handleTodoInput}>
           Add
         </button>
       </div>

@@ -26,22 +26,22 @@ const TodoShort = ({ elem, id }) => {
 
   return (
     <div className="">
-      <div className=" border bg-base-300 h-[500px] w-[400px] rounded-xl">
-        <div className="input_short flex justify-around bg-blue-200 p-6 ">
+      <div className=" h-[500px] w-[400px] rounded-xl bg-info">
+        <div className="input_short flex justify-around p-6 glass">
           <input
             type="text"
-            className="input"
+            className="input bg-secondary"
             placeholder={elem}
             onChange={(e) => {
               setShortText(e.target.value);
             }}
             value={shortText}
           />
-          <button className="btn" onClick={handleShortTask}>
+          <button className="btn btn-neutral" onClick={handleShortTask}>
             Addd 
           </button>
         </div>
-        <div className="overflow-y-scroll h-[80%]">
+        <div className="overflow-y-scroll h-[80%] no-scrollbar">
           
           {shortTaskArray.map((ele, index) => {
             return <TodoShortTask key={index} ele={ele} />;

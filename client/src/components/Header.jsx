@@ -31,20 +31,20 @@ const Header = () => {
   return (
     <div>
       <div className="header w-full   ">
-        <div className="navbar bg-base-300 ">
+        <div className="navbar glass bg-primary">
           <div className="flex-none ">
             <div
               className="tooltip tooltip-right tooltip-secondary"
               data-tip="documentation link"
             >
-              <a className="btn btn-ghost text-xl ">longPro</a>
+              <a className="btn btn-ghost text-xl ">LongPro</a>
             </div>
           </div>
           <div className="flex-1 justify-center ">
-            <label className="input input-bordered flex items-center gap-2 w-[60%] py-7 ">
+            <label className="input input-bordered flex items-center gap-2 w-[60%] py-7 bg-secondary ">
               <input
                 type="text"
-                className="grow"
+                className="grow text-black"
                 placeholder="Search"
                 onChange={(e) => setInputSearch(e.target.value)}
                 value={inputSearch}
@@ -54,17 +54,17 @@ const Header = () => {
                 data-tip="short task container"
               >
                 <button
-                  className="btn  btn-square "
+                  className="btn  btn-square btn-neutral "
                   onClick={handleShortSearch}
                 >
-                  St
+                  S
                 </button>
               </div>
               <div
                 className="tooltip tooltip-bottom"
                 data-tip="Long Project container"
               >
-                <button className="btn  btn-square " onClick={handleLongSearch}>
+                <button className="btn  btn-square btn-accent " onClick={handleLongSearch}>
                   L
                 </button>
               </div>
@@ -72,7 +72,7 @@ const Header = () => {
           </div>
 
             {inputSearch.trim().length !== 0 && (<>
-          <div className="search_filter absolute top-28 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-red-200 p-4  rounded-lg flex flex-col">
+          <div className="search_filter absolute top-28 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4  rounded-lg flex flex-col bg-info">
             <div className="long_list bg-red-50  ">
               {longTodoArray
                 .filter((todo) =>
@@ -99,7 +99,7 @@ const Header = () => {
           </div>
             </>)}
 
-          <button className="btn btn-primary   ">
+          <button className="btn btn-accent   ">
             <h2>LogOut</h2>
           </button>
           <div className=""></div>

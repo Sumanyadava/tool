@@ -3,10 +3,10 @@ import React, { useState } from "react";
 const TodoShortTask = ({ele}) => {
   const [check, setCheck] = useState(false);
   return (
-    <div className="">
+    <div className="rounded-xl">
       <div
-        className={`subtodo_short flex justify-around  bg-blue-50 items-center p-2 m-4 transition-all duration-500 ease-in gap-4 ${
-          check ? "bg-green-200" : ""
+        className={`subtodo_short flex justify-around  items-center p-2 m-4 transition-all duration-500 ease-in gap-4 ${
+          check ? "bg-info" : "bg-blue-400"
         } `}
       >
         <input
