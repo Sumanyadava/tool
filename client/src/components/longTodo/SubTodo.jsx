@@ -27,7 +27,7 @@ const SubTodo = ({ ele }) => {
                     : "bg-gray-500"
                 }`}
               >
-                {ele.tag}
+                {/* {ele.tag} */}
               </span>
             </h1>
           </div>

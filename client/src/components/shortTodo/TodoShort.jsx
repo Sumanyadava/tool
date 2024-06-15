@@ -26,11 +26,11 @@ const TodoShort = ({ elem, id }) => {
 
   return (
     <div className="">
-      <div className=" h-[500px] w-[400px] rounded-xl bg-info">
-        <div className="input_short flex justify-around p-6 glass">
+      <div className=" h-[500px] w-[400px] rounded-xl bg-info ">
+        <div className="input_short flex justify-around p-6 rounded-t-xl ">
           <input
             type="text"
-            className="input bg-secondary"
+            className="input bg-inherit placeholder-black text-xl focus:bg-secondary cursor-pointer"
             placeholder={elem}
             onChange={(e) => {
               setShortText(e.target.value);
@@ -38,7 +38,7 @@ const TodoShort = ({ elem, id }) => {
             value={shortText}
           />
           <button className="btn btn-neutral" onClick={handleShortTask}>
-            Addd 
+            Add 
           </button>
         </div>
         <div className="overflow-y-scroll h-[80%] no-scrollbar">

@@ -42,10 +42,12 @@ const TodoInput = ({ elem, id }) => {
   };
 
   return (
-    <div className="flex flex-col w-full gap-2 p-2 rounded-lg glass">
-      <div className="col_1 w-full flex justify-around">
+    <div>
+    <div className="input_long flex flex-col w-full gap-2 p-2 rounded-t-lg shadow-2xl overflow-hidden h-[8vh] group transition-all">
+      
+      <div className="col_1 w-full flex  justify-around  ">
         <input
-          className="input w-[90%] bg-secondary"
+          className="input w-[90%] bg-inherit placeholder-black text-xl focus:bg-secondary group-hover:group "
           placeholder={elem}
           value={inputInTodo.title}
           onChange={(e) => {
@@ -59,7 +61,7 @@ const TodoInput = ({ elem, id }) => {
             type="date"
             placeholder="deadline"
             min={currentDate}
-            className="input bg-secondary "
+            className="input bg-[#FBCEB1]"
             value={inputInTodo.deadline}
             onChange={(e) => {
               setInputInTodo((prev) => ({ ...prev, deadline: e.target.value }));
@@ -74,6 +76,7 @@ const TodoInput = ({ elem, id }) => {
           Add
         </button>
       </div>
+    </div>
     </div>
   );
 };

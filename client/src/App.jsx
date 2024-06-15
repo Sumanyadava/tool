@@ -8,11 +8,11 @@ function App() {
   return (
     <>
     
-
-      <Header/>
+<div className='abc font-cusT'>
+      <Header />
       
       <Main />
-    
+      </div>
     </>
   )
 }

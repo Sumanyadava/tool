@@ -31,8 +31,9 @@ const Header = () => {
   return (
     <div>
       <div className="header w-full   ">
-        <div className="navbar glass bg-primary">
+        <div className="navbar glass bg-primary relative z-0">
           <div className="flex-none ">
+
             <div
               className="tooltip tooltip-right tooltip-secondary"
               data-tip="documentation link"
@@ -44,7 +45,7 @@ const Header = () => {
             <label className="input input-bordered flex items-center gap-2 w-[60%] py-7 bg-secondary ">
               <input
                 type="text"
-                className="grow text-black"
+                className="grow text-black w-[50%]"
                 placeholder="Search"
                 onChange={(e) => setInputSearch(e.target.value)}
                 value={inputSearch}
@@ -64,42 +65,48 @@ const Header = () => {
                 className="tooltip tooltip-bottom"
                 data-tip="Long Project container"
               >
-                <button className="btn  btn-square btn-accent " onClick={handleLongSearch}>
+                <button
+                  className="btn  btn-square btn-accent "
+                  onClick={handleLongSearch}
+                >
                   L
                 </button>
               </div>
             </label>
           </div>
 
-            {inputSearch.trim().length !== 0 && (<>
-          <div className="search_filter absolute top-28 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4  rounded-lg flex flex-col bg-info">
-            <div className="long_list bg-red-50  ">
-              {longTodoArray
-                .filter((todo) =>
-                  todo.toLowerCase().includes(inputSearch.trim().toLowerCase())
-                )
-                .map((todo, index) => (
-                  <div className="" key={index}>
-                    {todo}
-                  </div>
-                ))}
+          {inputSearch.trim().length !== 0 && (
+            <div className="search_filter absolute top-28 left-1/2  -translate-x-1/2 p-4 w-[50%]  rounded-lg bg-accent font-semibold flex justify-evenly ">
+              <div className="long_list bg-red-50 w-[50%] p-2 m-2 rounded-lg ">
+                {longTodoArray
+                  .filter((todo) =>
+                    todo
+                      .toLowerCase()
+                      .includes(inputSearch.trim().toLowerCase())
+                  )
+                  .map((todo, index) => (
+                    <div className="hover:bg-red-200 cursor-pointer rounded-lg pl-2" key={index}>
+                      {todo}
+                    </div>
+                  ))}
+              </div>
+
+              <div className="short_list ">
+                {shortTodoArray
+                  .filter((todo) =>
+                    todo
+                      .toLowerCase()
+                      .includes(inputSearch.trim().toLowerCase())
+                  )
+                  .map((todo, index) => (
+                    <div key={index} className="hover:bg-red-200 cursor-pointer rounded-lg pl-2">{todo}</div>
+                  ))}
+              </div>
+              <button className="btn btn-circle btn-neutral" onClick={() => {setInputSearch("")}}>X</button>
             </div>
+          )}
 
-            <div className="short_list">
-              {shortTodoArray
-                .filter((todo) =>
-                  todo.toLowerCase().includes(inputSearch.trim().toLowerCase())
-                )
-                .map((todo, index) => (
-                  <div key={index}>{todo}</div>
-                ))}
-            </div>
-
-
-          </div>
-            </>)}
-
-          <button className="btn btn-accent   ">
+          <button className="btn btn-accent ">
             <h2>LogOut</h2>
           </button>
           <div className=""></div>

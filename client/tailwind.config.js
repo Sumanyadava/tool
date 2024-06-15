@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
+    fontFamily: {
+      cusT:["Roboto Condensed","sans-serif"]
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
@@ -12,12 +15,10 @@ export default {
           "base-100": "#ffffff",
           primary: "#7541f1ff",
           secondary: "#FEFFFEff",
-          
+
           accent: "#FFC735",
           neutral: "#1B1B1Cff",
           "bb-t": "#FFC735",
-          
-          
 
           info: "#3747F9",
 
@@ -27,39 +28,28 @@ export default {
 
           error: "#F84E79",
         },
+
+        mythemedark: {
+          "base-100": "#ffffff",
+          primary: "#070F2B",
+          secondary: "#EEEEEE",
+
+          accent: "#FAF0E6",
+          neutral: "#1B1B1Cff",
+          "bb-t": "#FFC735",
+
+          info: "#222831",
+
+          success: "#a3e635",
+
+          warning: "#fde047",
+
+          error: "#A0153E",
+        },
       },
       "light",
       "dark",
-      "cupcake",
-      "bumblebee",
-      "emerald",
-      "corporate",
-      "synthwave",
-      "retro",
-      "cyberpunk",
-      "valentine",
-      "halloween",
-      "garden",
-      "forest",
-      "aqua",
-      "lofi",
-      "pastel",
-      "fantasy",
-      "wireframe",
-      "black",
-      "luxury",
       "dracula",
-      "cmyk",
-      "autumn",
-      "business",
-      "acid",
-      "lemonade",
-      "night",
-      "coffee",
-      "winter",
-      "dim",
-      "nord",
-      "sunset",
     ],
   },
 };
