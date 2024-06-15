@@ -38,3 +38,7 @@ colors functions like page --
 chosing colors =>
 
 backgrounds = Gradients - [https://in.pinterest.com/pin/777856166920039175/ ] - more like this
+
+frontend -design completed 
+
+fontend functionality - edit , hide , show all , show timeline , milestone , 

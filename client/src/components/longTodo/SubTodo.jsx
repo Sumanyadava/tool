@@ -8,8 +8,8 @@ const SubTodo = ({ ele }) => {
   const dateformat = Math.ceil(datecomapare / (1000 * 60 * 60 * 24));
 
   return (
-    <>
-      <div className="long w-full h-24 bg-gray-50 rounded-badge my-2 flex justify-around items-center">
+    <div className="bg-gray-50 rounded-badge">
+      <div className="long w-full h-24 my-2 flex justify-around items-center ">
         <div className="leftside w-[65%] h-full ">
           <div className="content flex items-center justify-center h-full w-full text-black font-semibold text-3xl ">
             <h1 className="indicator">
@@ -38,8 +38,14 @@ const SubTodo = ({ ele }) => {
           </span>
           days
         </div>
+        
       </div>
-    </>
+
+      <div className="">
+      {/* ---------timeline for v2     */}
+      </div>
+
+    </div>
   );
 };
 
