@@ -5,9 +5,22 @@ import { shortTaskAdd } from "../../action";
 
 const TodoShort = ({ elem, id }) => {
   const [shortText, setShortText] = useState("");
-
   const dispatch = useDispatch()
+
+
   const shortTaskArray = useSelector(state => state.shortTaskReducer[id]) || []
+  const editShort = useSelector(state => state.editTaskShortReducer )
+
+  useEffect(() => {
+    if (editShort.task == 'default Edit') {
+      setShortText("")
+    }else if (id == editShort.id) {
+      setShortText(editShort.task)
+    }
+  }, [editShort])
+  
+
+  
 
   const handleShortTask = () => {
     const trimText = shortText.trim()
@@ -43,8 +56,8 @@ const TodoShort = ({ elem, id }) => {
         </div>
         <div className="overflow-y-scroll h-[80%] no-scrollbar">
           
-          {shortTaskArray.map((ele, index) => {
-            return <TodoShortTask key={index} ele={ele} />;
+          {shortTaskArray.map((ele, index ) => {
+            return <TodoShortTask key={index} ele={ele}  id={id} />;
           })}
         </div>
       </div>

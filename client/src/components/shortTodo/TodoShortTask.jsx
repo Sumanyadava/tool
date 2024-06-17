@@ -1,7 +1,17 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { shorttaskedit } from "../../action";
 
-const TodoShortTask = ({ele}) => {
+const TodoShortTask = ({ele,id}) => {
   const [check, setCheck] = useState(false);
+  const dispatch = useDispatch()
+
+  const handleEditShort = () => {
+     
+    dispatch(shorttaskedit(id,ele))
+    console.log(ele,id)
+    
+  }
   return (
     <div className="rounded-xl">
       <div
@@ -20,7 +30,7 @@ const TodoShortTask = ({ele}) => {
         <h2 className={`text-xl cursor-pointer`} onClick={() => setCheck(!check)}>
           {ele}
         </h2>
-      {check ? <button className="btn btn-outline">Hide</button> : <button className="btn">Edit</button>}
+      {check ? <button className="btn btn-outline">Hide</button> : <button className="btn" onClick={handleEditShort}>Edit</button>}
       </div>
     </div>
   );
