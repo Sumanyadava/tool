@@ -15,8 +15,8 @@ const TodoShortTask = ({ele,id}) => {
   return (
     <div className="rounded-xl">
       <div
-        className={`subtodo_short flex justify-around  items-center p-2 m-4 transition-all duration-500 ease-in gap-4 ${
-          check ? "bg-info" : "bg-blue-400"
+        className={`subtodo_short flex justify-around  items-center p-2 m-4 transition-all duration-500 ease-in rounded-xl gap-4 ${  check ? "bg-[#1F75FE]" : "bg-[#99ecff]" 
+          
         } `}
       >
         <input
@@ -30,7 +30,7 @@ const TodoShortTask = ({ele,id}) => {
         <h2 className={`text-xl cursor-pointer`} onClick={() => setCheck(!check)}>
           {ele}
         </h2>
-      {check ? <button className="btn btn-outline">Hide</button> : <button className="btn" onClick={handleEditShort}>Edit</button>}
+      {check ? <button className="btn btn-outline">Hide</button> : <button className="btn bg-[#5fadf6]" onClick={handleEditShort}>Edit</button>}
       </div>
     </div>
   );
