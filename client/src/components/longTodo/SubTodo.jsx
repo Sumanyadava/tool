@@ -1,5 +1,6 @@
 import React from "react";
 import ImpUrg from "./ImpUrg";
+import { useNavigate } from "react-router-dom";
 
 const SubTodo = ({ ele }) => {
   const datecomapare =
@@ -7,10 +8,18 @@ const SubTodo = ({ ele }) => {
     new Date().setHours(0, 0, 0, 0);
   const dateformat = Math.ceil(datecomapare / (1000 * 60 * 60 * 24));
 
+  const navigate = useNavigate();
+
   return (
     <div className="bg-gray-50 rounded-badge">
       <div className="long w-full h-24 my-2 flex justify-around items-center ">
-        <div className="leftside w-[65%] h-full ">
+        <div
+          className="leftside w-[65%] h-full "
+          onClick={(e) => {
+            // console.log(ele.title)
+            navigate(`/details?tittle=${ele.title}`)
+          }}
+        >
           <div className="content flex items-center justify-center h-full w-full text-black font-semibold text-3xl ">
             <h1 className="indicator">
               {ele.title}
@@ -38,13 +47,9 @@ const SubTodo = ({ ele }) => {
           </span>
           days
         </div>
-        
       </div>
 
-      <div className="">
-      {/* ---------timeline for v2     */}
-      </div>
-
+      <div className="">{/* ---------timeline for v2     */}</div>
     </div>
   );
 };

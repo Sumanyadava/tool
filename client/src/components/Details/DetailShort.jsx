@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import TodoShortTask from "./TodoShortTask";
+import TodoShortTask from "../shortTodo/TodoShortTask";
 import { useSelector ,useDispatch } from "react-redux";
 import { shortTaskAdd } from "../../action";
 
-const TodoShort = ({ elem, id }) => {
+const DetailShort = ({ elem, id }) => {
   const [shortText, setShortText] = useState("");
   const dispatch = useDispatch()
 
@@ -38,12 +38,12 @@ const TodoShort = ({ elem, id }) => {
 
 
   return (
-    <div className="">
-      <div className=" h-[500px] w-[400px] rounded-xl bg-info ">
-        <div className="input_short flex justify-around p-6 rounded-t-xl ">
+    <div className="h-full ">
+      <div className=" h-full w-full bg-info ">
+        <div className="input_short flex justify-around ">
           <input
             type="text"
-            className="input bg-inherit placeholder-black text-xl focus:bg-secondary cursor-pointer"
+            className=" bg-inherit placeholder-black text-xl focus:bg-secondary cursor-pointer"
             placeholder={elem}
             onChange={(e) => {
               setShortText(e.target.value);
@@ -54,7 +54,7 @@ const TodoShort = ({ elem, id }) => {
             Add 
           </button>
         </div>
-        <div className="overflow-y-scroll h-[80%] no-scrollbar">
+        <div className="overflow-y-scroll h-[90%] no-scrollbar">
           
           {shortTaskArray.map((ele, index ) => {
             return <TodoShortTask key={index} ele={ele}  id={id} />;
@@ -65,4 +65,4 @@ const TodoShort = ({ elem, id }) => {
   );
 };
 
-export default TodoShort;
+export default DetailShort;

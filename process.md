@@ -42,3 +42,28 @@ backgrounds = Gradients - [https://in.pinterest.com/pin/777856166920039175/ ] - 
 frontend -design completed 
 
 fontend functionality - edit , hide , show all , show timeline , milestone , 
+
+
+added functionality short
+
+long --  
+
+Frontend paused 
+
+Server // 
+
+server setup 
+
+api list - 
+
+1. create user 
+{
+  "username": "testuser",
+  "email": "testuser@example.com",
+  "password": "password123"
+}
+
+2. login 
+
+
+
