@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const userRouter = require('./user.router')
+const todoRouter = require('./todo.router.js')
 
-// Define your routes here
-router.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
 
-router.get('/about', (req, res) => {
-  res.send('About Page');
-});
+
+
+router.use('/auth',(userRouter))
+router.use('/todo',(todoRouter))
+
 
 module.exports = router;
