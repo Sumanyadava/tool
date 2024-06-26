@@ -63,7 +63,7 @@ api list -
   "password": "password123"
 }
 
-2. login 
+2. logins  
 
 
 

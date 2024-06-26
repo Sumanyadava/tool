@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const userModels = require('./user.models');
 
 const sTodoSchema = new mongoose.Schema({
   userId: {
