@@ -65,5 +65,9 @@ api list -
 
 2. logins  
 
+backend paused ---------
+
+Details 
+
 
 

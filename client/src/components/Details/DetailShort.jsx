@@ -39,8 +39,8 @@ const DetailShort = ({ elem, id }) => {
 
   return (
     <div className="h-full ">
-      <div className=" h-full w-full bg-info ">
-        <div className="input_short flex justify-around ">
+      <div className=" h-full w-full bg-yellow-100  ">
+        <div className="bg-gray-600 p-4 flex justify-around ">
           <input
             type="text"
             className=" bg-inherit placeholder-black text-xl focus:bg-secondary cursor-pointer"
@@ -54,7 +54,7 @@ const DetailShort = ({ elem, id }) => {
             Add 
           </button>
         </div>
-        <div className="overflow-y-scroll h-[90%] no-scrollbar">
+        <div className="overflow-y-scroll no-scrollbar">
           
           {shortTaskArray.map((ele, index ) => {
             return <TodoShortTask key={index} ele={ele}  id={id} />;
