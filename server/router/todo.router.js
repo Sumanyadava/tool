@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {shortController} = require('../controllers/todo.controller')
+const {shortTask ,setPlanner,plannerData,updatePlanner,createShortTodo } = require('../controllers/todo.controller')
 
 // POST /api/shortTodos
-router.post('/shorttodos',shortController );
+router.post('/addtaskshort',shortTask );
+router.get('/planner',plannerData)
+router.post('/setplanner',setPlanner)
+router.put("/updateplanner",updatePlanner)
+router.post("/createshorttodo",createShortTodo)
 
 module.exports = router

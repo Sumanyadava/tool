@@ -1,4 +1,4 @@
-import DetailTodo from "./components/Details/DetailTodo";
+import PlannerPage from "./components/planner/PlannerPage";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -6,13 +6,14 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 function App() {
   return (
-    <div className="h-screen w-full">
+    <div className="h-screen w-full font-cusT">
       <BrowserRouter>
         <Routes>
+
           <Route
             path="/"
             element={
-              <div className="abc font-cusT">
+              <div className="abc ">
                 <Header />
 
                 <Main />
@@ -20,7 +21,7 @@ function App() {
             }
           />
 
-          <Route path="/details" element={<DetailTodo />} />
+          <Route path="/planner" element={<PlannerPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>

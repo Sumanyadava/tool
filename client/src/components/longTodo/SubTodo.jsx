@@ -17,7 +17,7 @@ const SubTodo = ({ ele }) => {
           className="leftside w-[65%] h-full "
           onClick={(e) => {
             // console.log(ele.title)
-            navigate(`/details?tittle=${ele.title}`)
+            navigate(`/planner`)
           }}
         >
           <div className="content flex items-center justify-center h-full w-full text-black font-semibold text-3xl ">

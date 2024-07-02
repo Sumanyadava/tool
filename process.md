@@ -69,5 +69,27 @@ backend paused ---------
 
 Details 
 
+page creation // 
+objective better plan 
+
+ideation  - 
+
+Deadline - 
+name - 
+imp or urgent - 
+milestone - 
+writing things 
+
+first backend 
+
+database: 
+
+id: 
+Deadline: date
+impurg: enum
+milestone: [{id,task},{id,task}]
+writing: text
+
+
 
 

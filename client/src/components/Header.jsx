@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { shortTodoAdd, longTodoAdd } from "../action/index";
+import axios from "axios"
 
 const Header = () => {
+
+  const API = "http://localhost:3002/api/todo"
   const [inputSearch, setInputSearch] = useState("");
 
   const longTodoArray = useSelector((state) => state.longTodoReducer);
@@ -14,8 +17,8 @@ const Header = () => {
     if (inputSearch.trim().length == 0) {
       alert("write some thing");
     } else {
-      dispatch(longTodoAdd(inputSearch.trim()));
-      setInputSearch("");
+      
+
     }
   };
 
@@ -23,6 +26,22 @@ const Header = () => {
     if (inputSearch.trim().length == 0) {
       alert("write some thing");
     } else {
+      axios
+      .post(API+"/createshorttodo", {
+        userId:"6681c63c3a4bcc5a17457a5a",
+        shortname:"shortTodo45"
+        
+      }
+      ).then((res) => {
+        console.log(res);
+        
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      dispatch(longTodoAdd(inputSearch.trim()));
+      setInputSearch("");
       dispatch(shortTodoAdd(inputSearch.trim()));
       setInputSearch("");
     }

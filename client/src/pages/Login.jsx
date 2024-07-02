@@ -51,9 +51,8 @@ const Login = ({ role, setRole }) => {
         email: userEmail,
         password: userPassword,
         userRole:userRoleLogin
-      },{
-        withCredentials:true
-      })
+      }
+      )
       .then((res) => {
         console.log(res);
         toast.success("Login Successfull");

@@ -1,41 +1,41 @@
 import React, { useEffect, useState } from "react";
 import TodoShortTask from "../shortTodo/TodoShortTask";
-import { useSelector ,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { shortTaskAdd } from "../../action";
 
-const DetailShort = ({ elem, id }) => {
+const PlannerMilestone = ({ elem, id }) => {
   const [shortText, setShortText] = useState("");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-
-  const shortTaskArray = useSelector(state => state.shortTaskReducer[id]) || []
-  const editShort = useSelector(state => state.editTaskShortReducer )
+  const shortTaskArray =
+    useSelector((state) => state.shortTaskReducer[id]) || [];
+  const editShort = useSelector((state) => state.editTaskShortReducer);
 
   useEffect(() => {
-    if (editShort.task == 'default Edit') {
-      setShortText("")
-    }else if (id == editShort.id) {
-      setShortText(editShort.task)
+    if (editShort.task == "default Edit") {
+      setShortText("");
+    } else if (id == editShort.id) {
+      setShortText(editShort.task);
     }
-  }, [editShort])
-  
-
-  
+  }, [editShort]);
 
   const handleShortTask = () => {
-    const trimText = shortText.trim()
+    const trimText = shortText.trim();
     if (trimText.length == 0) {
       alert("write something in short task");
     } else {
-      dispatch(shortTaskAdd(id,trimText))
+      // dispatch(shortTaskAdd(id,trimText))
       // console.log(id,shortText,shortTaskArray)
-      setShortText("")
-    
-      
+      axios.post("http://localhost:3002/api/todo/setplanner", {
+        milestone: [
+          {
+            
+          },
+        ],
+      });
+      setShortText("");
     }
   };
-
-
 
   return (
     <div className="h-full ">
@@ -44,20 +44,19 @@ const DetailShort = ({ elem, id }) => {
           <input
             type="text"
             className=" bg-inherit placeholder-black text-xl focus:bg-secondary cursor-pointer"
-            placeholder={elem}
+            placeholder="elem"
             onChange={(e) => {
               setShortText(e.target.value);
             }}
             value={shortText}
           />
           <button className="btn btn-neutral" onClick={handleShortTask}>
-            Add 
+            Add
           </button>
         </div>
         <div className="overflow-y-scroll no-scrollbar">
-          
-          {shortTaskArray.map((ele, index ) => {
-            return <TodoShortTask key={index} ele={ele}  id={id} />;
+          {elem.map((ele, index) => {
+            return <TodoShortTask key={index} ele={ele.task} id={id} />;
           })}
         </div>
       </div>
@@ -65,4 +64,4 @@ const DetailShort = ({ elem, id }) => {
   );
 };
 
-export default DetailShort;
+export default PlannerMilestone;

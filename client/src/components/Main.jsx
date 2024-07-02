@@ -10,6 +10,30 @@ const Main = () => {
   const longTodoArray = useSelector((state) => state.longTodoReducer)
 
   
+  useEffect(() => {
+    const gettingdata = async () => {
+      try {
+        await axios
+          .get("http://localhost:3002/api/todo/planner", {
+            headers: {
+              plannertittle: "Marketing Strategy Q3",
+            },
+          })
+          .then((res) => {
+            // console.log(res.data?.message)
+            setPlannerTitle(res.data?.message?.plannertitle);
+            setValue(res.data?.message?.plantext);
+            setImpUrg(res.data?.message?.impurg);
+            setMilestone(res.data?.message?.milestone);
+            setDeadline(new Date(res.data?.message?.deadline));
+          });
+      } catch (error) {
+        console.log("error here ", error);
+      }
+    };
+
+    gettingdata();
+  }, []);
 
 
   
