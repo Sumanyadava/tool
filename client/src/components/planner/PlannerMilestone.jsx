@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import TodoShortTask from "../shortTodo/TodoShortTask";
 import { useSelector, useDispatch } from "react-redux";
 import { shortTaskAdd } from "../../action";
+import { toast } from "react-toastify";
 
 const PlannerMilestone = ({ elem, id }) => {
   const [shortText, setShortText] = useState("");
@@ -22,7 +23,7 @@ const PlannerMilestone = ({ elem, id }) => {
   const handleShortTask = () => {
     const trimText = shortText.trim();
     if (trimText.length == 0) {
-      alert("write something in short task");
+      toast.error("write something in short task");
     } else {
       // dispatch(shortTaskAdd(id,trimText))
       // console.log(id,shortText,shortTaskArray)

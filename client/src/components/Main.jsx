@@ -1,39 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Todo from "./longTodo/Todo";
 import TodoShort from "./shortTodo/TodoShort";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 const Main = () => {
 
   // reducers 
-  const shortTodoArray = useSelector((state) => state.shortTodoReducer)
-  const longTodoArray = useSelector((state) => state.longTodoReducer)
+  const shortArray = useSelector((state) => state.short.todos)
+  const longTodoArray = useSelector((state) => state.long.longtodos)
 
-  
-  useEffect(() => {
-    const gettingdata = async () => {
-      try {
-        await axios
-          .get("http://localhost:3002/api/todo/planner", {
-            headers: {
-              plannertittle: "Marketing Strategy Q3",
-            },
-          })
-          .then((res) => {
-            // console.log(res.data?.message)
-            setPlannerTitle(res.data?.message?.plannertitle);
-            setValue(res.data?.message?.plantext);
-            setImpUrg(res.data?.message?.impurg);
-            setMilestone(res.data?.message?.milestone);
-            setDeadline(new Date(res.data?.message?.deadline));
-          });
-      } catch (error) {
-        console.log("error here ", error);
-      }
-    };
+  useEffect(() =>{
+    
+  })
 
-    gettingdata();
-  }, []);
 
 
   
@@ -41,21 +21,26 @@ const Main = () => {
     <div>
       <div className="layout w-full  flex flex-wrap justify-center gap-10 py-10">
 
-        
-        {shortTodoArray.map((ele, index) => {
+         
+        {shortArray.map((ele, index) => {
+          
           return (
-            <TodoShort elem={ele} key={index} id={index} />
-          );
+            <TodoShort elem={ele} key={ele.id}  />
+          
+          )
         })}
 
         {longTodoArray.map((elem, index) => {
           return (
             <Todo elem={elem} key={index} id={index} />
+            
 
           );
         })}
 
-        
+         
+
+         
 
 
         

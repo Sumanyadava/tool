@@ -1,42 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import axios from "axios";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
-const Signup = ({ role }) => {
+import { FaGoogle } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa6";
+
+const Signup = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const [userRole, setUserRole] = useState(1);
-  const [workingHour, setWorkingHour] = useState("");
   const [eye, setEye] = useState("password");
   const [passVal, setpassVal] = useState("text-red-300");
 
-  const [searchParams] = useSearchParams();
-  const userEmailSearch = searchParams.get("email");
-
   const navigate = useNavigate();
-
-  // useEffect(() => {
-
-  //   //filling the fields with user data
-  //   axios
-  //     .get("http://localhost:3002/api/auth/single", {
-  //       headers: {
-  //         email: userEmailSearch,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       // console.log(res.data);
-  //       setUserName(res.data?.username);
-  //       setUserEmail(res.data?.email);
-  //       setUserPassword("");
-  //       setUserRole(res.data?.userRole);
-  //       setWorkingHour(res.data?.workingHours);
-  //     })
-  //     .catch((err) => console.error(err));
-  // }, []);
 
   const handleShow = () => {
     if (eye === "password") {
@@ -67,193 +46,130 @@ const Signup = ({ role }) => {
     ) {
       toast.error("Please fill all the fields");
     } else {
-      axios.post("http://localhost:3002/api/auth/signin", {
+      axios
+        .post("http://localhost:3002/api/auth/register", {
           name: userName,
           email: userEmail,
           password: userPassword,
-          userRole: userRole,
-          workingHours: workingHour,
         })
         .then((data) => {
           toast.success("Signup Success");
-          // console.log(userName, userEmail, userPassword);
+          console.log(userName, userEmail, userPassword);
           setUserName("");
           setUserEmail("");
           setUserPassword("");
-          setUserRole(1);
-          setWorkingHour("");
+          navigate("/");
         })
         .catch((err) => {
           console.log(err);
           toast.error("user already exsist");
         });
-
-      
-      console.log(userName, userEmail, userPassword, userRole);
     }
-  };
-  const handleEdit = (e) => {
-    e.preventDefault();
-    console.log("edit");
-    try {
-      axios
-      .put("http://localhost:3002/api/auth/singleedit", {
-        name: userName,
-        email: userEmail,
-        userRole: userRole,
-        workingHours: workingHour,
-        
-      })
-      .then((data) => {
-        
-        setUserName("");
-        setUserEmail("");
-        setUserPassword("");
-        setUserRole(1);
-        setWorkingHour("");
-        navigate(-1)
-        toast.success("edited successful");
-      })
-      .catch((err) => console.error(err));
-    } catch (error) {
-      toast.error("error")
-    }
-    
   };
 
   return (
-    <>
-      <div className="flex h-full w-full text-black">
-        <div className="signup_message bg-base-300 w-full sm:w-[50%] flex items-center justify-center">
-          <div className="signup_container bg-base-100 h-[700px] w-[400px] rounded-md">
-            <form
-              action=""
-              className="w-full h-full flex flex-col p-5"
-              onSubmit={userEmailSearch ? handleEdit : handleSubmit}
+    <div className="flex h-full w-full text-black">
+      <div className="signup_message bg-red-400 w-full sm:w-[50%] flex items-center justify-center">
+        <div className="signup_container bg-blue-600 max-h-[600px] w-[400px] rounded-md">
+          <form
+            action=""
+            className="w-full h-full flex flex-col p-5"
+            onSubmit={handleSubmit}
+            autoComplete="on"
+          >
+            <button
+              className="btn border-black text-black hover:bg-gray-100 bg-inherit"
+              onClick={() => {
+                toast.error("not integrated");
+              }}
             >
-              <label className="form-control w-full ">
-                <div className="label">
-                  <span className="">Your name</span>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Name here"
-                  required
-                  className="input input-bordered w-full bg-white "
-                  value={userName}
-                  onChange={(e) => {
-                    setUserName(e.target.value);
-                  }}
-                />
-              </label>
+              <i><FaGoogle /></i>
+              Signup with Google{" "}
+            </button>
 
-              <label className="form-control w-full mt-2">
-                <div className="label">
-                  <span className="">Your email </span>
-                </div>
-                <input
-                  type="email"
-                  placeholder="Email here"
-                  className="input input-bordered w-full  bg-white"
-                  required
-                  value={userEmail}
-                  onChange={(e) => {
-                    setUserEmail(e.target.value);
-                  }}
-                />
-              </label>
+            <div className="divider divider-neutral">or</div>
+            {/* text field  */}
 
-              <label className="form-control w-full mt-2">
-                <div className="label">
-                  <span className="">Your role </span>
-                </div>
-                <select
-                  name="userRegister"
-                  id="userRegister"
-                  value={userRole}
-                  onChange={(e) => {
-                    console.log(userRole);
-                    setUserRole(e.target.value);
-                  }}
-                  className="input input-bordered w-full  bg-white"
-                >
-                  <option value="1">Employee</option>
-                  <option value="2">Student</option>
-                  <option value="3">Businessman</option>
-                </select>
-              </label>
+            <label className="form-control w-full ">
+              <div className="label">
+                <span className="">What is your name?</span>
+              </div>
+              <input
+                type="text"
+                placeholder="Name here"
+                required
+                autoComplete="username"
+                className="input input-bordered w-full bg-white "
+                value={userName}
+                onChange={(e) => {
+                  setUserName(e.target.value);
+                }}
+              />
+            </label>
 
-              <label className="form-control w-full mt-2">
-                <div className="label">
-                  <span className="">Your Phone number </span>
-                </div>
-                <input
-                  type="number"
-                  name=""
-                  id=""
-                  value={workingHour}
-                  className="input input-bordered w-full bg-white"
-                  onChange={(e) => setWorkingHour(e.target.value)}
-                />
-              </label>
+            <label className="form-control w-full mt-2">
+              <div className="label">
+                <span className="">Write your email</span>
+              </div>
+              <input
+                type="email"
+                placeholder="Email here"
+                className="peer input input-bordered w-full bg-white "
+                required
+                value={userEmail}
+                onChange={(e) => {
+                  setUserEmail(e.target.value);
+                }}
+              />
+            </label>
 
-              <label className="form-control w-full mt-2 relative">
-                <div className="label">
-                  <span className="">Write a password</span>
-                  <span
-                    className="label-text-alt cursor-pointer"
-                    onClick={handleShow}
-                  >
-                    eye
-                  </span>
-                </div>
-
-                <input
-                  type={eye}
-                  placeholder={userEmailSearch ? "Reset Their password" :"Type here"}
-                  required
-                  disabled={Boolean(userEmailSearch)}
-                  className="peer input input-bordered w-full bg-white "
-                  value={userPassword}
-                  onChange={handlePass}
-                />
-
+            <label className="form-control w-full mt-2 relative">
+              <div className="label">
+                <span className="">Write a password</span>
                 <span
-                  className={`invisible peer-focus:visible pl-2 pt-2 label-text-alt  ${passVal}`}
+                  className="label-text-alt cursor-pointer text-xl"
+                  onClick={handleShow}
                 >
-                  password must be 8 character long
+                  {eye == "text" ? <FaEyeSlash /> : <FaEye />}
                 </span>
-              </label>
+              </div>
 
-              <button className="btn mt-9" type="submit">
-                {userEmailSearch ? "edit user" : "Register user"}
-              </button>
-              {userEmailSearch && (
-                <button
-                  className="btn mt-2"
-                  
-                >
-                  cancel
-                </button>
-              )}
+              <input
+                type={eye}
+                placeholder="Type here"
+                required
+                className="peer input input-bordered w-full bg-white "
+                value={userPassword}
+                onChange={handlePass}
+              />
 
-              <ToastContainer />
 
-              {/* <p className=" text-center mt-2">
-                Go Back?{" "}
-                <Link to="/dashboard" className="underline font-bold">
-                  Dashboard
-                </Link>
-              </p> */}
-            </form>
-          </div>
-        </div>
+              <span
+                className={`invisible peer-focus:visible pl-2 pt-2 label-text-alt  ${passVal}`}
+              >
+                password must be 8 character long
+              </span>
+            </label>
 
-        <div className="signup_pict h-full bg-[#6ce1ca] w-[50%] hidden sm:block">
-          {}
+
+            <button className="btn mt-9">Sign up</button>
+
+            <ToastContainer />
+
+            <p className=" text-center mt-2">
+              Been here before?{" "}
+              <Link to="/" className="underline font-bold">
+                Login Instead
+              </Link>
+            </p>
+          </form>
         </div>
       </div>
-    </>
+
+      <div className="signup_pict h-full bg-green-500 w-[50%] hidden sm:flex justify-center items-center">
+        <h1 className="text-[2vw]">Write your Message here Or Image</h1>
+      </div>
+    </div>
   );
 };
 

@@ -6,27 +6,36 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const hello = (req, res) => {
-  return res.send("hello world");
+  return res.json({ user: ["user1", "user2", "user3"] });
 };
+
 
 const register = async (req, res) => {
+  const { name, email, password } = req.body;
   try {
-    const { username, email, password } = req.body;
+    const exsistUSer = await User.findOne({ email: email });
 
-    // Hash the password
-    // const salt = await bcrypt.genSalt(10);
-    // const hashedPassword = await bcrypt.hash(password, salt);
+    if (exsistUSer) {
+      return res.status(400).json({
+        error: "user already exists",
+      });
+    } else {
+      const hash_password = await bcrypt.hash(password, 10);
+      const newUser = User({
+        username: name,
+        email: email,
+        password: hash_password,
+      });
 
-    const newUser = new User({ username, email, password });
-    await newUser.save();
+      await newUser.save();
+      return res.status(200).json({ message: "success full" });
+    }
 
-    res.status(201).json({message:"User registered successfully", data:newUser});
-    console.log(newUser);
   } catch (error) {
-    console.error("Error handling register request:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ error: "an error occured" });
   }
 };
+
 
 // Login endpoint
 const login = async (req, res) => {
@@ -34,25 +43,26 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
+
     if (!user) {
-      return res.status(400).send("Email not found");
+      return res.status(400).json({ error: "user has no account" });
     }
 
-    // Compare the password
-    // const isMatch = await bcrypt.compare(password, user.password);
-    if (password != user.password) {
-      return res.status(400).json({message:"Invalid email or password"});
-    } 
+    const validPassword = await bcrypt.compare(password, user.password)
+    
 
-    // Optionally create a JWT token
-    // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    //   expiresIn: "1h",
-    // });
+    if (!validPassword) {
+        res.status(400).json({ error: "password is incorrect" });
+      console.log(validPassword);
+    } else {
+      
+      const token = jwt.sign({userID : user.id}, process.env.JWT_KEY, {expiresIn: '2d'})
+      
+      return res.status(200).json({ message: "success full",token });
 
-    res.status(200).json({ message: "Login successful" });
+    }
   } catch (error) {
-    console.error("Error handling login request:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.log(error);
   }
 };
 

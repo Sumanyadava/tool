@@ -1,6 +1,6 @@
-const initalState = 0;
 
-const changeTheNumber = (state = initalState, action) => {
+
+const changeTheNumber = (state = 0, action) => {
   switch (action.type) {
     case "INCREMENT":
       return state + (action.payload || 1);

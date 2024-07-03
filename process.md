@@ -91,5 +91,20 @@ milestone: [{id,task},{id,task}]
 writing: text
 
 
+api: 
+all api completed
+
+frontend integration : 
+
+redux thunk: unknown (leanr )
+
+rewrite redux system with redux toolkit: 
+
+long and short array completed: 
+tasks: add task 
+
+multiple add 
+
+
 
 

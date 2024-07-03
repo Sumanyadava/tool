@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { shorttaskedit } from "../../action";
+import { editTask } from "../../redux/slices/shortTaskSlices";
+import { ToastContainer, toast } from "react-toastify";
 
-const TodoShortTask = ({ele,id}) => {
+
+const TodoShortTask = ({ele, todoId}) => {
   const [check, setCheck] = useState(false);
   const dispatch = useDispatch()
-
+  
+  
   const handleEditShort = () => {
+    const editTaskVar = (prompt("Edit your task", ele.text)).trim()
+    if (editTaskVar.length == 0) {
+      toast.error("edit failed as you write nothing")
+    }else{
+      dispatch(editTask({todoId:todoId , taskId:ele.id , taskText:editTaskVar}))
+      console.log(ele.id )
+      
+    }
      
-    dispatch(shorttaskedit(id,ele))
-    console.log(ele,id)
     
   }
+
   return (
     <div className="rounded-xl">
       <div
@@ -28,10 +38,11 @@ const TodoShortTask = ({ele,id}) => {
           onChange={() => setCheck(!check)}
         />
         <h2 className={`text-xl cursor-pointer`} onClick={() => setCheck(!check)}>
-          {ele}
+          {ele.text}
         </h2>
-      {check ? <button className="btn btn-outline">Hide</button> : <button className="btn bg-[#5fadf6]" onClick={handleEditShort}>Edit</button>}
+      {check ? <button className="btn btn-outline" onClick={handleDeleteTask}>Hide</button> : <button className="btn bg-[#5fadf6]" onClick={handleEditShort}>Edit</button>}
       </div>
+      <ToastContainer />
     </div>
   );
 };
