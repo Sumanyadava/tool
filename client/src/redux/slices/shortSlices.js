@@ -37,11 +37,11 @@ const shortSlice = createSlice({
       }
     },
     addTask: (state, action) => {
-      const { todoId, taskText } = action.payload;
+      const { todoId, taskText ,taskId } = action.payload;
       const todo = state.todos.find((todo) => todo.id === todoId);
       if (todo) {
         const task = {
-          id: nanoid(),
+          id: taskId,
           text: taskText,
         };
         todo.tasks.push(task);

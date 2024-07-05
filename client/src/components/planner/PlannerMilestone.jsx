@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TodoShortTask from "../shortTodo/TodoShortTask";
 import { useSelector, useDispatch } from "react-redux";
-import { shortTaskAdd } from "../../action";
 import { toast } from "react-toastify";
 
 const PlannerMilestone = ({ elem, id }) => {

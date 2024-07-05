@@ -3,26 +3,23 @@ import TodoShortTask from "./TodoShortTask";
 import { useSelector, useDispatch } from "react-redux";
 import { editTodo, removeTodo,addTask } from "../../redux/slices/shortSlices";
 
-
-import { setTasks } from "../../redux/slices/shortSlices";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const TodoShort = ({ elem, decoded }) => {
+const TodoShort = ({ elem, decoded,tasks }) => {
 
   const API = "http://localhost:3002/api/todo"
   const [shortText, setShortText] = useState("");
   const dispatch = useDispatch();
 
-  const shortTaskArray = useSelector((state) => state.shorttask[elem.id]) || [];
-
+  
   
     // Use useSelector to access tasks from the Redux store
-    const tasks = useSelector((state) => {
-      const todo = state.short.todos.find((todo) => todo.id === elem.Id);
-      return todo ? todo.tasks : [];
-    });
-  console.log(tasks);
+    const todos = useSelector((state) => 
+      state.short.todos
+    ); 
+  // console.log(tasks);
+
   useEffect(() => {
     const fetchTasks = async () => {
       /*
@@ -54,7 +51,7 @@ const TodoShort = ({ elem, decoded }) => {
     }
   }, [editShort])*/
 
-  const handleShortTask = async() => {
+  const handleShortAddTask = async() => {
     const trimText = shortText.trim();
     if (trimText.length == 0) {
       toast.error("write something in short task");
@@ -68,10 +65,10 @@ const TodoShort = ({ elem, decoded }) => {
         },
         
       ).then(res => {
-        dispatch(addTask({ todoId: elem.id, taskText: trimText }));
+        console.log(res.data.task.id)
+        dispatch(addTask({ todoId: elem.id, taskText: trimText,taskId: res.data.task.id }));
         toast.success("Todo edited successfully");
       })
-      // console.log(id,shortText,shortTaskArray)
       setShortText("");
     }
   };
@@ -113,7 +110,7 @@ const TodoShort = ({ elem, decoded }) => {
     console.log(decoded?.userID, elem.id, elem.id);
 
     try {
-      await axios.delete("http://localhost:3002/api/todo/delete/", {
+      await axios.delete(API+"/delete/", {
         params: {
           userId: decoded?.userID,
           todoId: elem.id,
@@ -140,7 +137,7 @@ const TodoShort = ({ elem, decoded }) => {
             }}
             value={shortText}
           />
-          <button className="btn btn-neutral" onClick={handleShortTask}>
+          <button className="btn btn-neutral" onClick={handleShortAddTask}>
             Add
           </button>
           <div className="flex flex-col gap-2">
@@ -159,9 +156,16 @@ const TodoShort = ({ elem, decoded }) => {
           </div>
         </div>
         <div className="overflow-y-scroll h-[80%] no-scrollbar">
-          {tasks.map((ele, index) => {
+          
+          {/*todos.map((ele, index) => {
             return <TodoShortTask key={index} ele={ele} todoId={elem.id} />;
-          })}
+          })*/}
+
+          {
+            tasks.map((task) => (
+              <TodoShortTask key={task.id} task={task} todoId={elem.id} decoded={decoded}/>
+            ))
+          }
         </div>
       </div>
       

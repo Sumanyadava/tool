@@ -122,5 +122,14 @@ db id == redux id
  ### bug found on settodo no id assigned in add todo therefore id conflict
 
  2. deleting unnececary files,
- 
+
+ deleting list :
+ public : 2 icons except s.svg
+ reducer and sction deleted
+
+### task crud
+1. create task 
+
+add task problem in creating id task
+add task id given at creation 
 

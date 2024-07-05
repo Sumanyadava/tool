@@ -196,10 +196,16 @@ const shortTask = async (req, res) => {
     const existingTask = shortTodo.tasks.find((task) => task.tname === tname);
     if (!existingTask) {
       // Add the new task
-      shortTodo.tasks.push({ tname: tname });
+      const newTask = {tname:tname}
+      shortTodo.tasks.push(newTask);
       await User.save();
 
-      res.status(201).json({ message: "task added" });
+      //find the newly added task
+      const addedTask = shortTodo.tasks.find((task) => task.tname === tname);
+      res.status(201).json({ message: "task added",task:{
+        id:addedTask._id,
+        tname:addedTask.tname
+      } });
     }else{
       return res
       .status(400)
@@ -243,15 +249,58 @@ const deleteTask = async (req, res) => {
   }
 };
 
+// Edit a specific task for a given user and todo
+const editTask = async (req, res) => {
+  try {
+    const { userId, todoId, taskId ,taskText } = req.body;
+
+    // Find the user
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the ShortTodo document for the user
+    let shortTodo = await ShortTodo.findOne({ userId });
+    if (!shortTodo) {
+      return res.status(404).json({ message: 'No shortTodo found for this user' });
+    }
+
+    // Find the todo item
+    const todoIndex = shortTodo.shortTodos.findIndex(todo => todo._id.toString() === todoId);
+    if (todoIndex === -1) {
+      return res.status(404).json({ message: 'Todo not found' });
+    }
+
+    // Find the task item
+    const taskIndex = shortTodo.shortTodos[todoIndex].tasks.findIndex(task => task._id.toString() === taskId);
+    if (taskIndex === -1) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    // Update the task's text
+    shortTodo.shortTodos[todoIndex].tasks[taskIndex].tname = taskText;
+
+    // Save the updated ShortTodo document
+    await shortTodo.save();
+
+    return res.status(200).json({ message: 'Task edited successfully', task: shortTodo.shortTodos[todoIndex].tasks[taskIndex] });
+  } catch (error) {
+    console.error('Error editing task:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
 
 module.exports = {
-  shortTask, 
-  
-  createShortTodo,
   allTodo,
-  getTasks,
-  deleteTask,
+  createShortTodo,
+  editTodo,
   deleteTodo,
-  editTodo
+  
+  getTasks,
+  shortTask, 
+  editTask,
+  deleteTask,
 };

@@ -70,7 +70,7 @@ const Header = ({decoded}) => {
         
       }
       ).then((res) => {
-        console.log(res.data.newTodoData);
+        // console.log(res.data.newTodoData);
         const newtodoId = res.data.newTodoData.id
         console.log(newtodoId);
         dispatch(addTodo({id:newtodoId  , shortname:inputSearch.trim()}))

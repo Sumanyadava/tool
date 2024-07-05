@@ -26,7 +26,7 @@ const Main = ({decoded}) => {
           }
         })
         .then((res) => {
-          console.log(res.data.data.shortTodos);
+          // console.log(res.data.data.shortTodos);
           dispatch(setTodos(res.data.data.shortTodos));
           // toast.success("send");
         })
@@ -51,7 +51,7 @@ const Main = ({decoded}) => {
         {shortArray.map((ele, index) => {
           // console.log(ele);
           return (
-            <TodoShort elem={ele} key={ele.id}  decoded={decoded} />
+            <TodoShort elem={ele} key={ele.id}  decoded={decoded} tasks={ele.tasks} />
           
           )
         })}
