@@ -1,12 +1,23 @@
 const mongoose = require('mongoose');
 
-const plannerSchema = new mongoose.Schema({
-  user:String,
+const longTaskSchema = new mongoose.Schema({
   plannertitle:String,
   deadline:Date,
   impurg:["imp","urg"],
   milestone:[{task:String}],
   plantext:String
+});
+const longTodoSchema = new mongoose.Schema({
+  longname:String,
+  longtasks:[longTaskSchema]
 })
 
-module.exports = mongoose.model('Planner', plannerSchema);
+const longSchema = new mongoose.Schema({
+  userId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:'User'
+  },
+  longTodos:[longTodoSchema]
+})
+
+module.exports = mongoose.model('Long', longSchema);

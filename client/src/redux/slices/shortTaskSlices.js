@@ -37,6 +37,10 @@ const shortTaskSlices = createSlice({
         task.text = taskText;
       }
     },
+    setTasks:(state,action) => {
+      const {todoId,tasks} = action.payload;
+      state[todoId] = tasks;
+    }
   },
 });
 

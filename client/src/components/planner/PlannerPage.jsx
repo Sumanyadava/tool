@@ -22,6 +22,7 @@ const PlannerPage = () => {
 
   useEffect(() => {
     const gettingdata = async () => {
+      /*
       try {
         await axios
           .get("http://localhost:3002/api/todo/planner", {
@@ -40,6 +41,7 @@ const PlannerPage = () => {
       } catch (error) {
         console.log("error here ", error);
       }
+        */
     };
 
     gettingdata();
@@ -94,10 +96,12 @@ const PlannerPage = () => {
 
 
   const handlePlannerSave = async() => {
+    /*
     const response = await axios.put('http://localhost:3002/api/todo/updateplanner', {
       plannertitle: plannerTitle,
       user:"jane_smith", deadline, impurg:"urg", plantext:valuePlanner
     });
+    */
   }
   return (
     <div className=" h-screen w-full font-cusT ">

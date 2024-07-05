@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {  toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -36,8 +35,9 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmitSign = (e) => {
     e.preventDefault();
+    console.log("signin called")
 
     if (
       userName.trim().length <= 2 ||
@@ -62,7 +62,7 @@ const Signup = () => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error("user already exsist");
+          toast.error("user already exsist signup");
         });
     }
   };
@@ -74,7 +74,7 @@ const Signup = () => {
           <form
             action=""
             className="w-full h-full flex flex-col p-5"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmitSign}
             autoComplete="on"
           >
             <button
@@ -92,7 +92,7 @@ const Signup = () => {
 
             <label className="form-control w-full ">
               <div className="label">
-                <span className="">What is your name?</span>
+                <span className="">write a unique user-name</span>
               </div>
               <input
                 type="text"
@@ -120,6 +120,7 @@ const Signup = () => {
                 onChange={(e) => {
                   setUserEmail(e.target.value);
                 }}
+                autoComplete="email"
               />
             </label>
 
@@ -141,6 +142,7 @@ const Signup = () => {
                 className="peer input input-bordered w-full bg-white "
                 value={userPassword}
                 onChange={handlePass}
+                autoComplete="current-password"
               />
 
 
@@ -153,8 +155,6 @@ const Signup = () => {
 
 
             <button className="btn mt-9">Sign up</button>
-
-            <ToastContainer />
 
             <p className=" text-center mt-2">
               Been here before?{" "}

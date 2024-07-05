@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import ImpUrg from "./ImpUrg";
 import { useDispatch } from "react-redux";
 import { longTaskAdd } from "../../action";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import { editLong, removeLong } from "../../redux/slices/longSlices";
+import { addLongTask } from "../../redux/slices/longTaskSlices";
 
 const TodoInput = ({ elem }) => {
   const [inputInTodo, setInputInTodo] = useState({
@@ -24,7 +25,6 @@ const TodoInput = ({ elem }) => {
   let year = date.getFullYear();
 
   let currentDate = `${year}-${month}-${day}`;
-  console.log(currentDate);
 
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ const TodoInput = ({ elem }) => {
     } else if (inputInTodo.tag.length == 0) {
       toast.error("write something in select tag");
     } else {
-      dispatch(longTaskAdd(id, inputInTodo));
+      dispatch(addLongTask({todoId:elem.id, taskTitle: trimLongText, taskDeadline :inputInTodo.deadline, taskTag:inputInTodo.tag}));
 
       setInputInTodo({
         title: "",
@@ -48,11 +48,11 @@ const TodoInput = ({ elem }) => {
   };
 
   const handleEditTodo = () => {
-    const editTodoVar = prompt("Edit your task", elem.text).trim();
+    const editTodoVar = prompt("Edit your task", elem.longtodo).trim();
     if (editTodoVar.length == 0) {
       toast.error("edit failed as you write nothing");
     } else {
-      dispatch(editLong({ id: elem.id, text: editTodoVar}));
+      dispatch(editLong({ id: elem.id, longtodo: editTodoVar}));
     }
   };
 
@@ -62,7 +62,7 @@ const TodoInput = ({ elem }) => {
         <div className="col_1 w-full flex  justify-evenly  ">
           <input
             className="input w-[75%] bg-inherit placeholder-black text-xl focus:bg-secondary group-hover:group "
-            placeholder={elem.text}
+            placeholder={elem.longtodo}
             value={inputInTodo.title}
             onChange={(e) => {
               setInputInTodo((prev) => ({ ...prev, title: e.target.value }));
@@ -112,7 +112,6 @@ const TodoInput = ({ elem }) => {
           </button>
         </div>
       </div>
-      <ToastContainer/>
     </div>
   );
 };

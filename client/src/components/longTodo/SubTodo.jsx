@@ -17,7 +17,7 @@ const SubTodo = ({ ele }) => {
           className="leftside w-[65%] h-full "
           onClick={(e) => {
             // console.log(ele.title)
-            navigate(`/planner`)
+            // navigate(`/planner`)
           }}
         >
           <div className="content flex items-center justify-center h-full w-full text-black font-semibold text-3xl ">
@@ -50,6 +50,7 @@ const SubTodo = ({ ele }) => {
       </div>
 
       <div className="">{/* ---------timeline for v2     */}</div>
+      <div className="">{/* ---------github streak for v2     */}</div>
     </div>
   );
 };

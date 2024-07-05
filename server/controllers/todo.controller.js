@@ -1,6 +1,99 @@
 const ShortTodo = require("../models/shortTodo.models.js");
-const Planner = require("../models/planner.models.js");
 const User = require("../models/user.models.js");
+
+
+
+// get all todo
+
+const allTodo = async(req,res) => {
+  try {
+    const {userId} = req.query;
+    const userExists = await User.findById(userId);
+    if (!userExists) {
+      return res.status(400).json({ message: "User not found" });
+    } else {
+      let shortTodo = await ShortTodo.findOne({ userId });
+      if (!shortTodo) {
+        return res.status(201).json({ message:"no short found" });
+      }
+      return res.status(201).json({ data:shortTodo });
+    }
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({ message: "server error" });
+  }
+}
+
+// Delete a specific todo for a given user
+const deleteTodo = async (req, res) => {
+  try {
+    const { userId, todoId } = req.query;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    let shortTodo = await ShortTodo.findOne({ userId });
+    if (!shortTodo) {
+      return res.status(201).json({ message:"no short found" });
+    }
+    
+    const todoIndex = shortTodo.shortTodos.findIndex(todo => todo._id.toString() === todoId);
+    if (todoIndex === -1) {
+      return res.status(404).json({ message: 'Todo not found' });
+    }
+
+
+    shortTodo.shortTodos.splice(todoIndex, 1);
+
+    await shortTodo.save();
+
+    return res.status(200).json({ message: 'Todo deleted successfully',todoIndex });
+  } catch (error) {
+    console.error('Error deleting todo:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Edit a specific todo for a given user
+const editTodo = async (req, res) => {
+  try {
+    const { userId, todoId } = req.query;
+    const { shortname } = req.body;
+
+    // Find the user
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the ShortTodo document for the user
+    let shortTodo = await ShortTodo.findOne({ userId });
+    if (!shortTodo) {
+      return res.status(404).json({ message: 'No shortTodo found for this user' });
+    }
+
+    // Find the todo item to be edited
+    const todoIndex = shortTodo.shortTodos.findIndex(todo => todo._id.toString() === todoId);
+    if (todoIndex === -1) {
+      return res.status(404).json({ message: 'Todo not found' });
+    }
+
+    // Update the todo's shortname
+    shortTodo.shortTodos[todoIndex].shortname = shortname;
+
+    // Save the updated ShortTodo document
+    await shortTodo.save();
+
+    return res.status(200).json({ message: 'Todo edited successfully', todo: shortTodo.shortTodos[todoIndex] });
+  } catch (error) {
+    console.error('Error editing todo:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
 //create new short todo and check if already exsist
 const createShortTodo = async (req, res) => {
@@ -46,6 +139,38 @@ const createShortTodo = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------
+
+const getTasks = async (req, res) => {
+  try {
+    const { userId, todoId } = req.query;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const todo = user.todos.id(todoId); // Assuming todos are embedded in the user document
+    if (!todo) {
+      return res.status(404).json({ message: 'Todo not found' });
+    }
+
+    return res.status(200).json({ tasks: todo.tasks });
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
 //creating task
 const shortTask = async (req, res) => {
   try {
@@ -86,79 +211,45 @@ const shortTask = async (req, res) => {
   }
 };
 
-const plannerData = async (req, res) => {
+// Delete a specific task for a specific todoId and userId
+const deleteTask = async (req, res) => {
   try {
-    const { plannertittle } = req.headers;
+    const { userId, todoId, taskId } = req.params;
 
-    if (!plannertittle) {
-      return res.status(400).json({ message: "give planner value found" });
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
-    const plannerVal = await Planner.findOne({ plannertitle: plannertittle });
-    if (!plannerVal) {
-      return res.status(400).json({ message: "user or planner not found" });
-    } else {
-      return res.status(200).json({ message: plannerVal });
+
+    const todo = user.todos.id(todoId); // Assuming todos are embedded in the user document
+    if (!todo) {
+      return res.status(404).json({ message: 'Todo not found' });
     }
+
+    const taskIndex = todo.tasks.findIndex(task => task._id.toString() === taskId);
+    if (taskIndex === -1) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    todo.tasks.splice(taskIndex, 1);
+    await user.save();
+
+    return res.status(200).json({ message: 'Task deleted successfully' });
   } catch (error) {
-    console.error("Error handling planner request:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    console.error('Error deleting task:', error);
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
-const setPlanner = async (req, res) => {
-  const { user, plannertitle, deadline, impurg, milestone, plantext } =
-    req.body;
-  try {
-    const newPlanner = Planner({
-      user,
-      plannertitle,
-      deadline,
-      impurg,
-      milestone,
-      plantext,
-    });
-    await newPlanner.save();
-    return res
-      .status(200)
-      .json({ message: "success full planner", data: newPlanner });
-  } catch (error) {
-    console.error("Error handling planner request:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-};
 
-const updatePlanner = async (req, res) => {
-  const { user, plannertitle, deadline, impurg, task, plantext } = req.body;
-
-  try {
-    const exsistUser = await Planner.findOneAndUpdate(
-      {
-        plannertitle: plannertitle,
-      },
-      {
-        user,
-        plannertitle,
-        deadline,
-        impurg,
-        milestone: [{ task: task }],
-        plantext,
-      }
-    );
-    if (exsistUser) {
-      return res.status(200).json({ message: "Planner updated successfully" });
-    } else {
-      return res.status(404).json({ message: "Planner updated successfully" });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(404).json({ message: "error during edit" });
-  }
-};
 
 module.exports = {
-  shortTask,
-  plannerData,
-  setPlanner,
-  updatePlanner,
+  shortTask, 
+  
   createShortTodo,
+  allTodo,
+  getTasks,
+  deleteTask,
+  deleteTodo,
+  editTodo
 };

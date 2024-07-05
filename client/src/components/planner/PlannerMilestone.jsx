@@ -25,8 +25,9 @@ const PlannerMilestone = ({ elem, id }) => {
     if (trimText.length == 0) {
       toast.error("write something in short task");
     } else {
-      // dispatch(shortTaskAdd(id,trimText))
-      // console.log(id,shortText,shortTaskArray)
+      /*
+      dispatch(shortTaskAdd(id,trimText))
+      console.log(id,shortText,shortTaskArray)
       axios.post("http://localhost:3002/api/todo/setplanner", {
         milestone: [
           {
@@ -35,6 +36,7 @@ const PlannerMilestone = ({ elem, id }) => {
         ],
       });
       setShortText("");
+      */
     }
   };
 

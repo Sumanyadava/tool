@@ -3,10 +3,11 @@ import SubTodo from "./SubTodo";
 import TodoInput from "./TodoInput";
 import { useSelector } from "react-redux";
 
+
 // codedept change classname
 
-const Todo = ({ elem, id }) => {
-  // const longTaskArray = useSelector((state) => state.longTaskReducer[id]) || [];
+const Todo = ({ elem }) => {
+  const longTaskArray = useSelector((state) => state.longtask[elem.id]) || [{title:"placeholder"}];
   return (
     <div>
       <div className="  h-[600px] w-[400px] rounded-xl text-black bg-error overflow-hidden">
@@ -39,9 +40,10 @@ const Todo = ({ elem, id }) => {
           </div>
 
           <div className="body_content w-full px-5 ">
-            {/*longTaskArray.map((ele, index) => {
+            
+            {longTaskArray.map((ele, index) => {
               return <SubTodo key={index} ele={ele} />;
-            })*/}
+            })}
           </div>
         </div>
       </div>

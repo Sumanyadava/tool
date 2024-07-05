@@ -8,6 +8,9 @@ import Cookies from "universal-cookie";
 import authChecker from "./utils/helper.util";
 import { useEffect, useState } from "react";
 import ErrorPage from "./pages/ErrorPage"
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function App() {
@@ -45,6 +48,7 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
       
     </div>
   );

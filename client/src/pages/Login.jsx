@@ -1,8 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import Cookies from "universal-cookie";
 
 import { FaEye } from "react-icons/fa";
@@ -32,8 +31,9 @@ const Login = ({ setJwtToken,jwtToken }) => {
     }
   };
 
-  const handleSubmitSign = (e) => {
+  const handleSubmitLogin = (e) => {
     e.preventDefault();
+    console.log("login called")
 
     axios
       .post("http://localhost:3002/api/auth/login", {
@@ -49,7 +49,9 @@ const Login = ({ setJwtToken,jwtToken }) => {
         navigate("/home");
       })
       .catch((err) => {
-        toast.error(err?.response.data.error);
+        const errorMessage = err?.response?.data?.error || "server error"
+        // toast.error(errorMessage);
+        toast.error("login error")
         console.log(err);
       });
   };
@@ -72,7 +74,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
           <form
             autoComplete="on"
             className="p-3 h-[70%] w-full flex flex-col justify-around "
-            onSubmit={handleSubmitSign}
+            onSubmit={handleSubmitLogin}
           >
             <input
               type="email"
@@ -120,7 +122,6 @@ const Login = ({ setJwtToken,jwtToken }) => {
           </form>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

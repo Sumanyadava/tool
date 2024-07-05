@@ -6,13 +6,13 @@ import { addLong } from "../redux/slices/longSlices";
 import axios from "axios"
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 
 
 
 const Header = ({decoded}) => {
 
-  const API = "http://localhost:3002/api/todo"
+  const API = "http://localhost:3002/api"
   
 
   const cookies = new Cookies();
@@ -23,18 +23,7 @@ const Header = ({decoded}) => {
   const [userData, setUserData] = useState([""]);
   const [inputSearch, setInputSearch] = useState("");
   
-  const handleAll = () => {
-    axios
-      .get("http://localhost:3002/api/auth/all")
-      .then((data) => {
-        console.log(data.data);
-        setUserData(data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("server error");
-      });
-  };
+
 
   const handleLogout = () => {
     cookies.remove("jwt_auth", { path: "/" });
@@ -48,8 +37,25 @@ const Header = ({decoded}) => {
     if (inputSearch.trim().length == 0) {
       toast.error("write something");
     } else {
-      dispatch(addLong(inputSearch.trim()))
-      setInputSearch("");
+      axios
+      .post(API+"/long/add", {
+        userId:userID,
+        longname:inputSearch.trim()
+        
+      }
+      ).then((res) => {
+        console.log(res);
+        dispatch(addLong(inputSearch.trim()))
+        setInputSearch("");
+        
+        
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data.message)
+
+      });
+      
     }
   };
 
@@ -57,33 +63,27 @@ const Header = ({decoded}) => {
     if (inputSearch.trim().length == 0) {
       toast.error("write something");
     } else {
-      /*
       axios
-      .post(API+"/createshorttodo", {
+      .post(API+"/todo/createshorttodo", {
         userId:userID,
-        shortname:"shortTodo45"
+        shortname:inputSearch.trim()
         
       }
       ).then((res) => {
         console.log(res);
+        dispatch(addTodo(inputSearch.trim()))
+        setInputSearch("");
         
         
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err.response.data.message)
+
       });
-      */
-     /*
-      dispatch(longTodoAdd(inputSearch.trim()));
-      setInputSearch("");
+  
 
-      dispatch(shortTodoAdd(inputSearch.trim()));
-      setInputSearch("");
-
-      */
-
-      dispatch(addTodo(inputSearch.trim()))
-      setInputSearch("");
+     
     }
   };
 
@@ -179,7 +179,6 @@ const Header = ({decoded}) => {
           <div className=""></div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

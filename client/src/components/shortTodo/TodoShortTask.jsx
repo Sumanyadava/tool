@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { editTask } from "../../redux/slices/shortTaskSlices";
-import { ToastContainer, toast } from "react-toastify";
+import {toast } from "react-toastify";
 
 
 const TodoShortTask = ({ele, todoId}) => {
@@ -20,6 +20,9 @@ const TodoShortTask = ({ele, todoId}) => {
     }
      
     
+  }
+  const handleDeleteTask = () => {
+    toast.error("cant delete it ")
   }
 
   return (
@@ -42,7 +45,6 @@ const TodoShortTask = ({ele, todoId}) => {
         </h2>
       {check ? <button className="btn btn-outline" onClick={handleDeleteTask}>Hide</button> : <button className="btn bg-[#5fadf6]" onClick={handleEditShort}>Edit</button>}
       </div>
-      <ToastContainer />
     </div>
   );
 };

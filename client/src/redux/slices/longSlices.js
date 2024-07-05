@@ -2,7 +2,7 @@ import { createSlice,nanoid } from "@reduxjs/toolkit";
 
 
 const initialStateLong = {
-  longtodos:[{id:1,text:"hello world"}]
+  longtodos:[{id:1,longtodo:"hello world"}]
 }
 
 const longSlices = createSlice({
@@ -12,7 +12,7 @@ const longSlices = createSlice({
     addLong: (state, action) => {
       const todo = {
         id: nanoid(),
-        text: action.payload,
+        longtodo: action.payload,
       };
       state.longtodos.push(todo);
     },
@@ -20,15 +20,19 @@ const longSlices = createSlice({
       state.longtodos = state.longtodos.filter((todo) => todo.id !== action.payload);
     },
     editLong: (state, action) => {
-      const { id, text } = action.payload;
+      const { id, longtodo } = action.payload;
       const existTodo = state.longtodos.find((todo) => todo.id == id);
       console.log("start");
       if (existTodo) {
         console.log("foundit");
-        existTodo.text = text;
+        existTodo.longtodo = longtodo;
       } else {
         console.log("cant find");
       }
+    },
+    
+    setlong:(state,action) => {
+
     }
 
 

@@ -104,6 +104,13 @@ long and short array completed:
 tasks: add task 
 
 multiple add 
+redux intigration complete
+planner pause --------------------------------
+ 
+api intigration (4hr)
+
+issue: multiple username cant accept
+
 
 
 
