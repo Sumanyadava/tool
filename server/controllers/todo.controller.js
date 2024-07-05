@@ -114,23 +114,25 @@ const createShortTodo = async (req, res) => {
       ) {
         return res.status(400).json({ message: "Shortname already exists" });
       }
-
+      let newTodo;
       if (!shortTodo) {
         shortTodo = await ShortTodo.create({
           userId,
           shortTodos: [{ shortname, tasks: [] }],
         });
-        return res
-          .status(201)
-          .json({ message: "New shortTodo created successfully" });
+        newTodo = shortTodo.shortTodos[0];
       }
 
       shortTodo.shortTodos.push({ shortname, tasks: [] });
       await shortTodo.save();
+      newTodo = shortTodo.shortTodos[shortTodo.shortTodos.length - 1]; // last added todo
 
       return res.status(201).json({
         message: "New shortTodo created successfully",
-        data: shortTodo,
+        newTodoData: {
+          id: newTodo._id,
+          shortname: newTodo.shortname,
+        },
       });
     }
   } catch (error) {

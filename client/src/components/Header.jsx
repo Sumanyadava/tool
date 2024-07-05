@@ -59,7 +59,7 @@ const Header = ({decoded}) => {
     }
   };
 
-  const handleShortSearch = () => {
+  const handleShortAdd = () => {
     if (inputSearch.trim().length == 0) {
       toast.error("write something");
     } else {
@@ -70,15 +70,17 @@ const Header = ({decoded}) => {
         
       }
       ).then((res) => {
-        console.log(res);
-        dispatch(addTodo(inputSearch.trim()))
+        console.log(res.data.newTodoData);
+        const newtodoId = res.data.newTodoData.id
+        console.log(newtodoId);
+        dispatch(addTodo({id:newtodoId  , shortname:inputSearch.trim()}))
         setInputSearch("");
         
         
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.response.data.message)
+        // toast.error(err.response.data.message)
 
       });
   
@@ -115,7 +117,7 @@ const Header = ({decoded}) => {
               >
                 <button
                   className="btn  btn-square btn-neutral "
-                  onClick={handleShortSearch}
+                  onClick={handleShortAdd}
                 >
                   S
                 </button>

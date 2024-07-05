@@ -6,8 +6,8 @@ const initialStateShort = {
       id: 1,
       shortname: "hello world text",
       tasks: [
-        { id: nanoid(), text: "ui" },
-        { id: nanoid(), text: "ux" },
+        { id: 1, text: "ui" },
+        { id: 2, text: "ux" },
       ],
     },
   ],
@@ -18,9 +18,10 @@ const shortSlice = createSlice({
   initialState: initialStateShort,
   reducers: {
     addTodo: (state, action) => {
+      const {id,shortname} = action.payload;
       const todo = {
-        id: nanoid(),
-        shortname: action.payload,
+        id: id,
+        shortname: shortname,
         tasks: [],
       };
       state.todos.push(todo);

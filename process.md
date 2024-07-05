@@ -109,9 +109,18 @@ planner pause --------------------------------
  
 api intigration (4hr)
 
-issue: multiple username cant accept
+issue: multiple username cant accept  ----- hold
 
 
+## big fixing 
 
+1. short Todo crud
+read - fine
+create - getting nano id 
+db id == redux id
 
+ ### bug found on settodo no id assigned in add todo therefore id conflict
+
+ 2. deleting unnececary files,
+ 
 

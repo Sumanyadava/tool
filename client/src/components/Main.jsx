@@ -28,7 +28,7 @@ const Main = ({decoded}) => {
         .then((res) => {
           console.log(res.data.data.shortTodos);
           dispatch(setTodos(res.data.data.shortTodos));
-          toast.success("send");
+          // toast.success("send");
         })
         .catch((err) => {
           console.log(err);
