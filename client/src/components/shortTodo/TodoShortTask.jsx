@@ -2,19 +2,23 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { toast } from "react-toastify";
-import { editTask } from "../../redux/slices/shortSlices";
+import { editTask, iscompleteTask, removeTask } from "../../redux/slices/shortSlices";
 import axios from "axios";
 
 const TodoShortTask = ({ task, todoId, decoded }) => {
   const API = "http://localhost:3002/api/todo";
-  const [check, setCheck] = useState(false);
+  const [check, setCheck] = useState(task.iscompleted);
   const dispatch = useDispatch();
 
   const handleEditShort = async () => {
-    console.log("userId:" ,decoded?.userID,
-      "todoId:", todoId,
-      "taskId:", task.id,
-      );
+    console.log(
+      "userId:",
+      decoded?.userID,
+      "todoId:",
+      todoId,
+      "taskId:",
+      task.id
+    );
     const editTaskVar = prompt("Edit your task", task.text).trim();
     if (editTaskVar.length == 0) {
       toast.error("edit failed as you write nothing");
@@ -27,7 +31,7 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
           taskText: editTaskVar,
         })
         .then((res) => {
-          console.log(res)
+          console.log(res);
           dispatch(
             editTask({ todoId: todoId, taskId: task.id, taskText: editTaskVar })
           );
@@ -36,8 +40,29 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
     }
   };
 
-  const handleDeleteTask = () => {
-    toast.error("cant delete it ");
+  const handleToggleComplete = async () => {
+    try {
+      const response = await axios.put(API + "/task/toggle", null, {
+        params: { userId: decoded?.userID, todoId: todoId, taskId: task.id },
+      });
+      console.log(response.data.message);
+      setCheck(!check);
+      dispatch(iscompleteTask({ todoId: todoId, taskId: task.id }));
+    } catch (error) {
+      console.error("Error toggling task completion:", error);
+    }
+  };
+
+  const handleDeleteTask = async () => {
+    try {
+      const response = await axios.delete(`${API}/task/delete/${decoded?.userID}/${todoId}/${task.id}`);
+      console.log(response.data.message);
+      dispatch(removeTask({ todoId: todoId, taskId: task.id }));
+      toast.success("Task deleted successfully");
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      toast.error("Error deleting task");
+    }
   };
 
   return (
@@ -53,17 +78,17 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
           id=""
           className="checkbox"
           checked={check}
-          onChange={() => setCheck(!check)}
+          onChange={handleToggleComplete}
         />
         <h2
           className={`text-xl cursor-pointer`}
-          onClick={() => setCheck(!check)}
+          onClick={handleToggleComplete}
         >
           {task.text}
         </h2>
         {check ? (
           <button className="btn btn-outline" onClick={handleDeleteTask}>
-            Hide
+            Delete
           </button>
         ) : (
           <button className="btn bg-[#5fadf6]" onClick={handleEditShort}>

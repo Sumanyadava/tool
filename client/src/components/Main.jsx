@@ -5,13 +5,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { setTodos } from "../redux/slices/shortSlices";
+import { setLongTodos } from "../redux/slices/longSlices";
 
 const Main = ({decoded}) => {
   const dispatch = useDispatch();
 
   // reducers 
   const shortArray = useSelector((state) => state.short.todos)
-  const longTodoArray = useSelector((state) => state.long.longtodos)
+  const longArray = useSelector((state) => state.long.longTodos)
 
   
 
@@ -32,13 +33,40 @@ const Main = ({decoded}) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error("cant fetch all todo");
+          // toast.error("cant fetch short todo");
         });
     };
 
+    const handleLongTodo = async() => {
+      await axios
+        .get("http://localhost:3002/api/long/setlong",{
+          params:{
+            userId:decoded?.userID
+          }
+        })
+        .then((res) => {
+          // console.log(res);
+          dispatch(setLongTodos(res.data.data.longTodos));
+          // toast.success("send");
+        })
+        .catch((err) => {
+          // console.log(err);
+          // toast.error("cant fetch all todo");
+        });
+    }
+
+    const fetchTodos = async () => {
+      await handleLongTodo();
+      await handleShortTodo();
+    };
+
+    if (decoded?.userID) {
+      fetchTodos();
+    }
 
     handleShortTodo()
-  },[dispatch])
+    handleLongTodo()
+  },[dispatch,decoded?.userID])
 
 
 
@@ -56,12 +84,13 @@ const Main = ({decoded}) => {
           )
         })}
 
-        {longTodoArray.map((elem, index) => {
-
+        {longArray.map((elem, index) => {
+          // console.log(elem);
           return (
-            <Todo elem={elem} key={index} id={index} />
+          
+             <Todo elem={elem} key={elem.id}  decoded={decoded} longtasks={elem.longtasks} />
             
-
+          
           );
         })}
 

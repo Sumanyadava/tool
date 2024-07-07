@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {shortTask ,createShortTodo,allTodo,getTasks,deleteTask,deleteTodo,editTodo,editTask  } = require('../controllers/todo.controller')
+const {shortTask ,createShortTodo,allTodo,getTasks,deleteTask,deleteTodo,editTodo,editTask, toggleTaskCompletion  } = require('../controllers/todo.controller')
 
 // POST /api/shortTodos
 router.get("/alltodo",allTodo)
@@ -12,7 +12,8 @@ router.delete('/delete', deleteTodo);
 router.get("/alltask",getTasks)
 router.post('/addtaskshort',shortTask );
 router.put('/edittask', editTask);
-router.delete('/tasks/:userId/:todoId/:taskId', deleteTask);
+router.delete('/task/delete/', deleteTask);
+router.put('/task/toggle',toggleTaskCompletion)
 
   
 module.exports = router

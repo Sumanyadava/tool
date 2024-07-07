@@ -92,7 +92,7 @@ const Signup = () => {
 
             <label className="form-control w-full ">
               <div className="label">
-                <span className="">write a unique user-name</span>
+                <span className="">write your name</span>
               </div>
               <input
                 type="text"

@@ -1,51 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PlannerMilestone from "./PlannerMilestone";
-import { useSearchParams } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 
+import { useDispatch, useSelector } from "react-redux";
+import { editLongTask, setLongTask } from "../../redux/slices/longSlices";
+
+
+
 const PlannerPage = () => {
+  const location = useLocation();
+  const { ltask, decoded, todoId, todoname } = location.state || {};
+  console.warn({ ltask, decoded, todoId, todoname })
+
   const [valuePlanner, setValue] = useState("");
-  const [plannerTitle, setPlannerTitle] = useState("loading...");
-  const [deadline, setDeadline] = useState(new Date());
-  const [impUrg, setImpUrg] = useState("loading...");
-  const [milestone, setMilestone] = useState([{ id: "1", task: "Loading..." }]);
+  // const [taskIduse, setTaskIduse] = useState(null);
 
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
-  const title = "tittle";
+  const dispatch = useDispatch();
 
+  const handleUpdateTask = () => {
+    console.log("aaa", ltask.id)
+    dispatch(
+      setLongTask({
+        todoId: todoId,
+        taskId: ltask.id,
+        updatedTask: {
+          plantext: ltask.plantext,
+          deadline: ltask.deadline, 
+          impurg: ltask.impurg,
+        },
+      })
+    );
+
+    
+  };
+  
+  
   useEffect(() => {
-    const gettingdata = async () => {
-      /*
-      try {
-        await axios
-          .get("http://localhost:3002/api/todo/planner", {
-            headers: {
-              plannertittle: "Marketing Strategy Q3",
-            },
-          })
-          .then((res) => {
-            // console.log(res.data?.message)
-            setPlannerTitle(res.data?.message?.plannertitle);
-            setValue(res.data?.message?.plantext);
-            setImpUrg(res.data?.message?.impurg);
-            setMilestone(res.data?.message?.milestone);
-            setDeadline(new Date(res.data?.message?.deadline));
-          });
-      } catch (error) {
-        console.log("error here ", error);
-      }
-        */
-    };
-
-    gettingdata();
-  }, []);
+    setValue(ltask.plantext)
+    handleUpdateTask()
+  }, [ltask?.plantext,location.state,dispatch]);
+  
 
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -74,9 +76,7 @@ const PlannerPage = () => {
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const difference = Math.floor(
-        (new Date(deadline) - new Date()) 
-      );
+      const difference = Math.floor(new Date(ltask.deadline) - new Date());
       const days = Math.floor(difference / (1000 * 60 * 60 * 24));
       const hours = Math.floor(
         (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -91,38 +91,69 @@ const PlannerPage = () => {
     };
     calculateTimeLeft();
     const interval = setInterval(calculateTimeLeft, 60000);
-    return () => clearInterval(interval); 
-  }, [deadline]);
+    return () => clearInterval(interval);
+  }, [ltask.deadline]);
 
 
-  const handlePlannerSave = async() => {
-    /*
-    const response = await axios.put('http://localhost:3002/api/todo/updateplanner', {
-      plannertitle: plannerTitle,
-      user:"jane_smith", deadline, impurg:"urg", plantext:valuePlanner
-    });
-    */
-  }
+
+  const handlePlannerSave = async () => {
+    console.log(todoId, "taskid", ltask.id, valuePlanner);
+    try {
+      await axios
+        .put("http://localhost:3002/api/long/editlongtask", {
+          userId: decoded?.userID,
+          todoId,
+          taskId: ltask.id,
+          plannertitle: ltask.plannertitle,
+          deadline: ltask.deadline,
+          impurg: ltask.impurg,
+          milestone: ltask.milestone,
+          plantext: valuePlanner,
+        })
+        .then((res) => {
+          console.log("Task edited successfully:", res.data.task);
+          // console.log(res?.data.task.plantext);
+          ltask.id = res.data.task._id
+          ltask.plantext = res?.data.task.plantext
+          setValue(res?.data.task.plantext)
+          console.log("tak id",ltask.id);
+
+          handleUpdateTask()
+
+          dispatch(
+            editLongTask({
+              todoId,
+              taskId: res.data.task._id,
+              plantext: res?.data.task.plantext,
+            })
+          );
+          ltask.plantext = valuePlanner
+          
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log("Error editing long task:");
+    }
+  };
+
+
   return (
     <div className=" h-screen w-full font-cusT ">
-      {
-        console.log(deadline)
-        
-      }
-      <div className="details_top bg-gray-700  h-[20%] w-full">
+      <div className="details_top bg-[#121212]  h-[20%] w-full">
         <div className="top_header">
-          <div className="text-sm breadcrumbs">
+          <div className="text-sm breadcrumbs text-white ml-5">
             <ul>
               <li>
                 <Link to="/">Home</Link>
               </li>
-              <li>{title}</li>
+              <li>{todoname}</li>
+              <li>{ltask.plannertitle}</li>
             </ul>
           </div>
         </div>
         <div className="top_deadline w-full h-[60%] flex justify-evenly items-center ">
           {/* --clock-- */}
-          <div className="grid grid-flow-col gap-5 text-center auto-cols-max">
+          <div className="grid grid-flow-col gap-5 text-center auto-cols-max w-min ">
             <div className="flex flex-col p-4 bg-neutral rounded-box text-neutral-content ">
               <span className="countdown font-bold text-5xl">
                 <span style={{ "--value": days }}></span>
@@ -141,38 +172,62 @@ const PlannerPage = () => {
               </span>
               min
             </div>
-            
+
             {/* <div className="flex flex-col p-4  bg-neutral rounded-box text-neutral-content">
               <span className="countdown font-mono text-5xl">
                 <span style={{ "--value": seconds }}></span>
               </span>
               sec
             </div> */}
-
-
           </div>
-          <h1 className="heading font-semibold text-[4vw] ">{plannerTitle}</h1>
+          <h1 className="dynamic-title font-semibold text-white w-[50%] flex justify-end ">
+            {ltask.plannertitle}
+          </h1>
         </div>
       </div>
-      <div className="details_bottom  flex flex-col md:flex-row ">
-        <div className="details_left bg-yellow-200  md:w-2/3 w-full h-[80vh]">
-          <h1 className="heading font-semibold text-2xl bg-yellow-600 w-max p-2 m-2 rounded-xl shadow-lg">
-            {impUrg} {}
+      <div className="details_bottom  flex flex-col md:flex-row  ">
+        <div className="details_left bg-[#181818]  md:w-2/3 w-full h-[80vh]">
+          <h1
+            className={`heading font-semibold text-2xl  w-max p-2 m-2 rounded-xl shadow-lg ${
+              ltask.impurg == "imp & urg"
+                ? "bg-red-500"
+                : ltask.impurg == "imp & non urg"
+                ? "bg-yellow-500"
+                : ltask.impurg == "non imp & urg"
+                ? "bg-orange-500"
+                : ltask.impurg == "non imp & non urg"
+                ? "bg-green-500"
+                : "bg-gray-500"
+            }`}
+          >
+            {ltask.impurg == "imp & urg"
+              ? "Important and urgent"
+              : ltask.impurg == "imp & non urg"
+              ? "important but non urgent"
+              : ltask.impurg == "non imp & urg"
+              ? "non important & urgent"
+              : ltask.impurg == "non imp & non urg"
+              ? "non imporant & non urgent"
+              : "bg-gray-500"}
           </h1>
           <ReactQuill
             theme="snow"
             value={valuePlanner}
             onChange={setValue}
-            className="h-[80%] mx-5"
+            className="h-[80%] mx-5 text-white"
             placeholder="write your documentation here..."
           />
           <div className="btn_wrapper absolute right-16">
-            <button className="btn btn-accent m-3">edit</button>
-            <button className="btn btn-primary m-3" onClick={handlePlannerSave}>Save</button>
+            <button className="btn btn-accent m-3"  >
+              edit
+            </button>
+            <button className="btn btn-primary m-3" onClick={handlePlannerSave}>
+              Save
+            </button>
           </div>
         </div>
-        <div className="details_right bg-blue-300  md:w-1/3 w-full h-[80vh] ">
-          <PlannerMilestone elem={milestone} />
+        <div className="details_right md:w-1/3 w-full h-[80vh] bg-[#181818]">
+          {/* <PlannerMilestone elem={milestone} /> */}
         </div>
       </div>
     </div>

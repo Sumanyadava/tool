@@ -2,60 +2,54 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addTodo } from "../redux/slices/shortSlices";
-import { addLong } from "../redux/slices/longSlices";
-import axios from "axios"
+import { addLongTodo } from "../redux/slices/longSlices";
+import axios from "axios";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 
-
-
-const Header = ({decoded}) => {
-
-  const API = "http://localhost:3002/api"
-  
+const Header = ({ decoded }) => {
+  const API = "http://localhost:3002/api";
 
   const cookies = new Cookies();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   const [userData, setUserData] = useState([""]);
   const [inputSearch, setInputSearch] = useState("");
-  
-
 
   const handleLogout = () => {
     cookies.remove("jwt_auth", { path: "/" });
     navigate("/");
   };
 
-
-  const userID = decoded?.userID
+  const userID = decoded?.userID;
 
   const handleLongSearch = () => {
     if (inputSearch.trim().length == 0) {
       toast.error("write something");
     } else {
       axios
-      .post(API+"/long/add", {
-        userId:userID,
-        longname:inputSearch.trim()
-        
-      }
-      ).then((res) => {
-        console.log(res);
-        dispatch(addLong(inputSearch.trim()))
-        setInputSearch("");
-        
-        
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.response.data.message)
-
-      });
-      
+        .post(API + "/long/add", {
+          userId: userID,
+          longname: inputSearch.trim(),
+        })
+        .then((res) => {
+          console.log(res);
+          console.log(res.data.newTodoData);
+          const newltodoId = res.data.newTodoData.id;
+          dispatch(
+            addLongTodo({
+              id: newltodoId,
+              longname: res.data.newTodoData.longname,
+            })
+          );
+          setInputSearch("");
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(err.response.data.message);
+        });
     }
   };
 
@@ -64,28 +58,21 @@ const Header = ({decoded}) => {
       toast.error("write something");
     } else {
       axios
-      .post(API+"/todo/createshorttodo", {
-        userId:userID,
-        shortname:inputSearch.trim()
-        
-      }
-      ).then((res) => {
-        // console.log(res.data.newTodoData);
-        const newtodoId = res.data.newTodoData.id
-        console.log(newtodoId);
-        dispatch(addTodo({id:newtodoId  , shortname:inputSearch.trim()}))
-        setInputSearch("");
-        
-        
-      })
-      .catch((err) => {
-        console.log(err);
-        // toast.error(err.response.data.message)
-
-      });
-  
-
-     
+        .post(API + "/todo/createshorttodo", {
+          userId: userID,
+          shortname: inputSearch.trim(),
+        })
+        .then((res) => {
+          // console.log(res.data.newTodoData);
+          const newtodoId = res.data.newTodoData.id;
+          console.log(newtodoId);
+          dispatch(addTodo({ id: newtodoId, shortname: inputSearch.trim() }));
+          setInputSearch("");
+        })
+        .catch((err) => {
+          console.log(err);
+          // toast.error(err.response.data.message)
+        });
     }
   };
 
@@ -94,7 +81,6 @@ const Header = ({decoded}) => {
       <div className="header w-full   ">
         <div className="navbar glass bg-primary relative z-0 ">
           <div className="flex-none ">
-
             <div
               className="tooltip tooltip-right tooltip-secondary"
               data-tip="documentation link"
@@ -111,10 +97,7 @@ const Header = ({decoded}) => {
                 onChange={(e) => setInputSearch(e.target.value)}
                 value={inputSearch}
               />
-              <div
-                className="tooltip tooltip-bottom"
-                data-tip="short task "
-              >
+              <div className="tooltip tooltip-bottom" data-tip="short task ">
                 <button
                   className="btn  btn-square btn-neutral "
                   onClick={handleShortAdd}
@@ -122,10 +105,7 @@ const Header = ({decoded}) => {
                   S
                 </button>
               </div>
-              <div
-                className="tooltip tooltip-bottom"
-                data-tip="Long Project "
-              >
+              <div className="tooltip tooltip-bottom" data-tip="Long Project ">
                 <button
                   className="btn  btn-square btn-accent "
                   onClick={handleLongSearch}
@@ -139,7 +119,6 @@ const Header = ({decoded}) => {
           {inputSearch.trim().length !== 0 && (
             <div className="search_filter absolute top-28 left-1/2  -translate-x-1/2 p-4 w-[30%]  rounded-lg bg-accent font-semibold flex justify-evenly ">
               <div className="long_list bg-red-50 w-[50%] p-2 m-2 rounded-lg ">
-                
                 {/*
                 longTodoArray
                   .filter((todo) =>
@@ -157,9 +136,7 @@ const Header = ({decoded}) => {
               </div>
 
               <div className="short_list ">
-                {
-                
-                /*shortTodoArray
+                {/*shortTodoArray
                   .filter((todo) =>
                     todo
                       .toLowerCase()
@@ -171,7 +148,14 @@ const Header = ({decoded}) => {
                     
                   */}
               </div>
-              <button className="btn btn-circle btn-neutral" onClick={() => {setInputSearch("")}}>X</button>
+              <button
+                className="btn btn-circle btn-neutral"
+                onClick={() => {
+                  setInputSearch("");
+                }}
+              >
+                X
+              </button>
             </div>
           )}
 

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import ImpUrg from "./ImpUrg";
 import { useDispatch } from "react-redux";
-import {  toast } from "react-toastify";
-import { editLong, removeLong } from "../../redux/slices/longSlices";
-import { addLongTask } from "../../redux/slices/longTaskSlices";
+import { toast } from "react-toastify";
+import { editLongTodo, removeLongTodo } from "../../redux/slices/longSlices";
+import { addLongTask } from "../../redux/slices/longSlices";
+import axios from "axios";
 
-const TodoInput = ({ elem }) => {
+const TodoInput = ({ elem, decoded,todoname }) => {
   const [inputInTodo, setInputInTodo] = useState({
     title: "",
     deadline: "",
@@ -15,8 +16,8 @@ const TodoInput = ({ elem }) => {
   const date = new Date();
   let day = date.getDate();
   let month = date.getMonth() + 1;
-  if (day< 10) {
-    day = "0" + day
+  if (day < 10) {
+    day = "0" + day;
   }
   if (month < 10) {
     month = "0" + month;
@@ -27,7 +28,7 @@ const TodoInput = ({ elem }) => {
 
   const dispatch = useDispatch();
 
-  const handleTodoInput = () => {
+  const handleTodoInput = async () => {
     const trimLongText = inputInTodo.title.trim();
     if (trimLongText.length == 0) {
       toast.error("write something in long task");
@@ -36,7 +37,34 @@ const TodoInput = ({ elem }) => {
     } else if (inputInTodo.tag.length == 0) {
       toast.error("write something in select tag");
     } else {
-      dispatch(addLongTask({todoId:elem.id, taskTitle: trimLongText, taskDeadline :inputInTodo.deadline, taskTag:inputInTodo.tag}));
+      await axios
+        .post("http://localhost:3002/api/long/addtask", {
+          userId: decoded?.userID,
+          todoId: elem.id,
+          plannertitle: trimLongText,
+          deadline: inputInTodo.deadline,
+          impurg: inputInTodo.tag,
+          milestone: [],
+          plantext: "",
+        })
+        .then((res) => {
+          console.log(res.data.task);
+          const lTaskRes = res?.data.task;
+          dispatch(
+            addLongTask({
+              todoId: elem.id,
+              taskId: lTaskRes.id,
+              plannertitle: trimLongText,
+              deadline: inputInTodo.deadline,
+              impurg: inputInTodo.tag,
+              milestone:[],
+              plantext:lTaskRes.plaintext,
+            })
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
       setInputInTodo({
         title: "",
@@ -46,13 +74,36 @@ const TodoInput = ({ elem }) => {
     }
   };
 
-  const handleEditTodo = () => {
-    const editTodoVar = prompt("Edit your task", elem.longtodo).trim();
+  const handleEditTodo = async () => {
+    const editTodoVar = prompt("Edit your task", elem.longname).trim();
     if (editTodoVar.length == 0) {
       toast.error("edit failed as you write nothing");
     } else {
-      dispatch(editLong({ id: elem.id, longtodo: editTodoVar}));
+      await axios
+        .post("http://localhost:3002/api/long/edit", {
+          userId: decoded?.userID,
+          todoId: elem.id,
+          newLongname: editTodoVar,
+        })
+        .then((res) => {
+          console.log(res);
+          dispatch(editLongTodo({ id: elem.id, longname: editTodoVar }));
+        })
+        .catch((err) => console.log(err));
     }
+  };
+
+  const handleDeleteTodo = async () => {
+    await axios.delete("http://localhost:3002/api/long/deletetodo", {
+      data: {
+        userId: decoded?.userID,
+        todoId: elem.id,
+      },
+    }).then((res) =>{
+      dispatch(removeLongTodo(elem.id))
+    })
+
+    console.log("Todo deleted successfully:", response.data);
   };
 
   return (
@@ -61,7 +112,7 @@ const TodoInput = ({ elem }) => {
         <div className="col_1 w-full flex  justify-evenly  ">
           <input
             className="input w-[75%] bg-inherit placeholder-black text-xl focus:bg-secondary group-hover:group "
-            placeholder={elem.longtodo}
+            placeholder={elem.longname}
             value={inputInTodo.title}
             onChange={(e) => {
               setInputInTodo((prev) => ({ ...prev, title: e.target.value }));
@@ -71,7 +122,7 @@ const TodoInput = ({ elem }) => {
           <div className="flex flex-col gap-2">
             <button
               className="bg-neutral h-5 w-8 rounded-sm  text-secondary"
-              onClick={() => dispatch(removeLong(elem.id))}
+              onClick={handleDeleteTodo}
             >
               d
             </button>

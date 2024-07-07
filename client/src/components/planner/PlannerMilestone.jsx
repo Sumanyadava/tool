@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const PlannerMilestone = ({ elem, id }) => {
   const [shortText, setShortText] = useState("");
   const dispatch = useDispatch();
-
+/*
   const shortTaskArray =
     useSelector((state) => state.shortTaskReducer[id]) || [];
   const editShort = useSelector((state) => state.editTaskShortReducer);
@@ -18,7 +18,7 @@ const PlannerMilestone = ({ elem, id }) => {
       setShortText(editShort.task);
     }
   }, [editShort]);
-
+*/
   const handleShortTask = () => {
     const trimText = shortText.trim();
     if (trimText.length == 0) {
@@ -40,9 +40,9 @@ const PlannerMilestone = ({ elem, id }) => {
   };
 
   return (
-    <div className="h-full ">
-      <div className=" h-full w-full bg-yellow-100  ">
-        <div className="bg-gray-600 p-4 flex justify-around ">
+    <div className="h-full  ">
+      <div className=" h-full ">
+        <div className="bg-[#212121] p-4 flex justify-around ">
           <input
             type="text"
             className=" bg-inherit placeholder-black text-xl focus:bg-secondary cursor-pointer"
@@ -56,7 +56,7 @@ const PlannerMilestone = ({ elem, id }) => {
             Add
           </button>
         </div>
-        <div className="overflow-y-scroll no-scrollbar">
+        <div className="overflow-y-scroll no-scrollbar ">
           {elem.map((ele, index) => {
             return <TodoShortTask key={index} ele={ele.task} id={id} />;
           })}

@@ -6,8 +6,8 @@ const initialStateShort = {
       id: 1,
       shortname: "hello world text",
       tasks: [
-        { id: 1, text: "ui" },
-        { id: 2, text: "ux" },
+        { id: 1, text: "ui", iscompleted: true },
+        { id: 2, text: "ux", iscompleted: false },
       ],
     },
   ],
@@ -18,7 +18,7 @@ const shortSlice = createSlice({
   initialState: initialStateShort,
   reducers: {
     addTodo: (state, action) => {
-      const {id,shortname} = action.payload;
+      const { id, shortname } = action.payload;
       const todo = {
         id: id,
         shortname: shortname,
@@ -37,12 +37,13 @@ const shortSlice = createSlice({
       }
     },
     addTask: (state, action) => {
-      const { todoId, taskText ,taskId } = action.payload;
+      const { todoId, taskText, taskId } = action.payload;
       const todo = state.todos.find((todo) => todo.id === todoId);
       if (todo) {
         const task = {
           id: taskId,
           text: taskText,
+          iscompleted: false,
         };
         todo.tasks.push(task);
       }
@@ -66,13 +67,24 @@ const shortSlice = createSlice({
     },
     setTodos: (state, action) => {
       state.todos = action.payload.map((todo) => ({
-        id: todo._id, // Use the _id from the backend response as id
+        id: todo._id,
         shortname: todo.shortname,
         tasks: todo.tasks.map((task) => ({
-          id: task._id, // Use the _id from the backend response as id
+          id: task._id,
           text: task.tname,
+          iscompleted: task.iscompleted,
         })),
       }));
+    },
+    iscompleteTask: (state, action) => {
+      const { todoId, taskId } = action.payload;
+      const todo = state.todos.find((todo) => todo.id === todoId);
+      if (todo) {
+        const task = todo.tasks.find((task) => task.id === taskId);
+        if (task) {
+          task.iscompleted = !task.iscompleted;
+        }
+      }
     },
   },
 });
@@ -86,6 +98,7 @@ export const {
   removeTask,
   editTask,
   setTasks,
+  iscompleteTask,
 } = shortSlice.actions;
 
 export default shortSlice.reducer;

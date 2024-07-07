@@ -133,3 +133,17 @@ db id == redux id
 add task problem in creating id task
 add task id given at creation 
 
+compled or not  finished
+
+2. delete task:
+delete hold
+
+## long todo crud
+1. long add comp
+2. set comp
+3. edit comp
+4. delete comp
+
+## sub task
+task add -half
+

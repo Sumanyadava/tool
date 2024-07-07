@@ -52,3 +52,11 @@
   box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
   border-bottom: 1px solid rgba( 255, 255, 255, 0.18 );
 }
+
+.dynamic-title {
+  width: 40%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: calc(3vw + 3vh + 3vmin);
+}

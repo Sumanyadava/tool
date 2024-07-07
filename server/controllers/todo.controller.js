@@ -95,6 +95,72 @@ const editTodo = async (req, res) => {
 };
 
 
+
+
+
+// Toggling task completion status
+const toggleTaskCompletion = async (req, res) => {
+  try {
+    const { userId, todoId, taskId } = req.query;
+
+    // Find the user
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Find the ShortTodo document for the user
+    let shortTodo = await ShortTodo.findOne({ userId });
+    if (!shortTodo) {
+      return res.status(404).json({ message: 'No shortTodo found for this user' });
+    }
+
+    // Find the todo item
+    const todoIndex = shortTodo.shortTodos.findIndex(todo => todo._id.toString() === todoId);
+    if (todoIndex === -1) {
+      return res.status(404).json({ message: 'Todo not found' });
+    }
+
+    // Find the task item
+    const taskIndex = shortTodo.shortTodos[todoIndex].tasks.findIndex(task => task._id.toString() === taskId);
+    if (taskIndex === -1) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    // Toggle the task's iscompleted status
+    shortTodo.shortTodos[todoIndex].tasks[taskIndex].iscompleted = !shortTodo.shortTodos[todoIndex].tasks[taskIndex].iscompleted;
+
+    // Save the updated ShortTodo document
+    await shortTodo.save();
+
+    return res.status(200).json({ 
+      message: 'Task completion status toggled successfully', 
+      task: shortTodo.shortTodos[todoIndex].tasks[taskIndex] 
+    });
+  } catch (error) {
+    console.error('Error toggling task completion:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = {
+  toggleTaskCompletion,
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //create new short todo and check if already exsist
 const createShortTodo = async (req, res) => {
   try {
@@ -222,7 +288,7 @@ const shortTask = async (req, res) => {
 // Delete a specific task for a specific todoId and userId
 const deleteTask = async (req, res) => {
   try {
-    const { userId, todoId, taskId } = req.params;
+    const { userId, todoId, taskId } = req.query;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -234,7 +300,7 @@ const deleteTask = async (req, res) => {
       return res.status(404).json({ message: 'Todo not found' });
     }
 
-    const taskIndex = todo.tasks.findIndex(task => task._id.toString() === taskId);
+    const taskIndex = todo.tasks.findIndex(task => task._id.toString() === taskId); 
     if (taskIndex === -1) {
       return res.status(404).json({ message: 'Task not found' });
     }
@@ -303,4 +369,5 @@ module.exports = {
   shortTask, 
   editTask,
   deleteTask,
+  toggleTaskCompletion,
 };

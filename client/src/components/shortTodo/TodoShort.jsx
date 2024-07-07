@@ -67,9 +67,11 @@ const TodoShort = ({ elem, decoded,tasks }) => {
       ).then(res => {
         console.log(res.data.task.id)
         dispatch(addTask({ todoId: elem.id, taskText: trimText,taskId: res.data.task.id }));
-        toast.success("Todo edited successfully");
+        
+        setShortText("");
+      }).catch(err =>{
+        toast.error('alredy same task ')
       })
-      setShortText("");
     }
   };
 

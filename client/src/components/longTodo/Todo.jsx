@@ -6,13 +6,14 @@ import { useSelector } from "react-redux";
 
 // codedept change classname
 
-const Todo = ({ elem }) => {
-  const longTaskArray = useSelector((state) => state.longtask[elem.id]) || [{title:"placeholder"}];
+const Todo = ({ elem ,decoded }) => {
+  // const longTaskArray = useSelector((state) => state.long.longtodos)
+  console.log(elem);
   return (
     <div>
       <div className="  h-[600px] w-[400px] rounded-xl text-black bg-error overflow-hidden">
         
-          <TodoInput elem={elem}  />
+          <TodoInput elem={elem} decoded={decoded} />
 
           
         
@@ -41,8 +42,10 @@ const Todo = ({ elem }) => {
 
           <div className="body_content w-full px-5 ">
             
-            {longTaskArray.map((ele, index) => {
-              return <SubTodo key={index} ele={ele} />;
+            {elem.longtasks.map((ltask) => {
+              return <SubTodo key={ltask.id} ltask={ltask} todoId={elem.id} decoded={decoded} todoname={elem.longname} />;
+              // console.log(ltask);
+              // return <h1>lta</h1>
             })}
           </div>
         </div>

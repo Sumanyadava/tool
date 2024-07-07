@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const longTaskSchema = new mongoose.Schema({
   plannertitle:String,
   deadline:Date,
-  impurg:["imp","urg"],
+  impurg:String,
   milestone:[{task:String}],
   plantext:String
 });
