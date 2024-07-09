@@ -147,3 +147,8 @@ delete hold
 ## sub task
 task add -half
 
+done bug to fix 
+
+reload save 
+milestone 
+

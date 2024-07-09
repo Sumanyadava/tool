@@ -25,8 +25,7 @@ const SubTodo = ({ ltask,decoded,todoId , todoname }) => {
         >
           <div className="content flex items-center justify-center h-full w-full text-black font-semibold text-3xl ">
             <h1 className="indicator">
-              {ltask.plannertitle
-              }
+              {ltask.plannertitle}
               <span
                 className={`indicator-item badge ${
                   ltask.impurg
@@ -41,7 +40,9 @@ const SubTodo = ({ ltask,decoded,todoId , todoname }) => {
                     : "bg-gray-500"
                 }`}
               >
-                 {ltask.plantext}
+                 {/* {ltask.plantext} */}
+
+                {/* dark background  */}
               </span>
             </h1>
           </div>

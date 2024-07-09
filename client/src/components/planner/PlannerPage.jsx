@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import PlannerMilestone from "./PlannerMilestone";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
-import { editLongTask, setLongTask } from "../../redux/slices/longSlices";
+import { editLongTask, setLongTask, setLongTodos } from "../../redux/slices/longSlices";
+import { toast } from "react-toastify";
 
 
 
 const PlannerPage = () => {
   const location = useLocation();
   const { ltask, decoded, todoId, todoname } = location.state || {};
-  console.warn({ ltask, decoded, todoId, todoname })
 
+  const navigate = useNavigate();
+
+  
+
+  const currLongTodo = useSelector((state) => state.long.longTodos.find(todo => todo.id ==  todoId))
+  
+
+  console.log(currLongTodo,todoId);
+  // console.warn({ ltask, decoded, todoId, todoname })
+
+
+  //react quill
   const [valuePlanner, setValue] = useState("");
+
+
   // const [taskIduse, setTaskIduse] = useState(null);
 
   const [days, setDays] = useState(0);
@@ -25,6 +39,7 @@ const PlannerPage = () => {
 
   const dispatch = useDispatch();
 
+  /*
   const handleUpdateTask = () => {
     console.log("aaa", ltask.id)
     dispatch(
@@ -41,13 +56,25 @@ const PlannerPage = () => {
 
     
   };
+  */
   
+  /*
   
   useEffect(() => {
     setValue(ltask.plantext)
-    handleUpdateTask()
   }, [ltask?.plantext,location.state,dispatch]);
   
+*/
+  
+  useEffect(() => {
+    setLongTodos({todoId,})
+    setValue(ltask.plantext)
+  }, []);
+
+  
+  
+
+
 
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
@@ -97,7 +124,7 @@ const PlannerPage = () => {
 
 
   const handlePlannerSave = async () => {
-    console.log(todoId, "taskid", ltask.id, valuePlanner);
+    // console.log(todoId, "taskid", ltask.id, valuePlanner);
     try {
       await axios
         .put("http://localhost:3002/api/long/editlongtask", {
@@ -111,14 +138,16 @@ const PlannerPage = () => {
           plantext: valuePlanner,
         })
         .then((res) => {
-          console.log("Task edited successfully:", res.data.task);
+          // console.log("Task edited successfully:", res.data.task);
           // console.log(res?.data.task.plantext);
           ltask.id = res.data.task._id
           ltask.plantext = res?.data.task.plantext
-          setValue(res?.data.task.plantext)
-          console.log("tak id",ltask.id);
+          
+          // setValue(res?.data.task.plantext)
 
-          handleUpdateTask()
+          console.log("planner after api ",ltask.plantext);
+          setValue(ltask.plantext)
+          // handleUpdateTask()
 
           dispatch(
             editLongTask({
@@ -127,10 +156,17 @@ const PlannerPage = () => {
               plantext: res?.data.task.plantext,
             })
           );
-          ltask.plantext = valuePlanner
+          toast.success('saved')
+          navigate(-1)
+          
           
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err)
+          toast.error('jii')
+        }
+        
+      );
     } catch (error) {
       console.log("Error editing long task:");
     }
@@ -186,7 +222,8 @@ const PlannerPage = () => {
         </div>
       </div>
       <div className="details_bottom  flex flex-col md:flex-row  ">
-        <div className="details_left bg-[#181818]  md:w-2/3 w-full h-[80vh]">
+      
+        <div className="details_left bg-[#181818]  w-full h-[80vh]">
           <h1
             className={`heading font-semibold text-2xl  w-max p-2 m-2 rounded-xl shadow-lg ${
               ltask.impurg == "imp & urg"
@@ -210,6 +247,7 @@ const PlannerPage = () => {
               ? "non imporant & non urgent"
               : "bg-gray-500"}
           </h1>
+
           <ReactQuill
             theme="snow"
             value={valuePlanner}
@@ -217,6 +255,8 @@ const PlannerPage = () => {
             className="h-[80%] mx-5 text-white"
             placeholder="write your documentation here..."
           />
+
+
           <div className="btn_wrapper absolute right-16">
             <button className="btn btn-accent m-3"  >
               edit
@@ -226,9 +266,10 @@ const PlannerPage = () => {
             </button>
           </div>
         </div>
+{/*         
         <div className="details_right md:w-1/3 w-full h-[80vh] bg-[#181818]">
-          {/* <PlannerMilestone elem={milestone} /> */}
-        </div>
+           <PlannerMilestone elem={milestone} /> 
+        </div> */}
       </div>
     </div>
   );

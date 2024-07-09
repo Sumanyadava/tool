@@ -259,7 +259,7 @@ const addLongTask = async (req, res) => {
       deadline,
       impurg,
       milestone,
-      plantext:"default",
+      plantext:"",
     };
 
     longTodos.longTodos[todoIndex].longtasks.push(newTask);
