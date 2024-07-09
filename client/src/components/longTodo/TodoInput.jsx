@@ -48,7 +48,7 @@ const TodoInput = ({ elem, decoded,todoname }) => {
           plantext: "",
         })
         .then((res) => {
-          console.log(res.data.task);
+          // console.log(res.data.task);
           const lTaskRes = res?.data.task;
           dispatch(
             addLongTask({
@@ -86,7 +86,7 @@ const TodoInput = ({ elem, decoded,todoname }) => {
           newLongname: editTodoVar,
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           dispatch(editLongTodo({ id: elem.id, longname: editTodoVar }));
         })
         .catch((err) => console.log(err));

@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const database_name = "test"
+const database_name = "togo"
 
 
 // write 127.0.0.1 instead of localhost - dont know why ?

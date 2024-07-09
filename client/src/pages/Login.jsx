@@ -33,7 +33,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
 
   const handleSubmitLogin = (e) => {
     e.preventDefault();
-    console.log("login called")
+    // console.log("login called")
 
     axios
       .post("http://localhost:3002/api/auth/login", {
@@ -41,8 +41,8 @@ const Login = ({ setJwtToken,jwtToken }) => {
         password: userPassword,
       })
       .then((res) => {
-        console.log(res.data);
-        toast.success("Login Successfull");
+        // console.log(res.data);
+        toast.success("Welcome Master");
         const token = res.data.token;
         setJwtToken(token);
         cookies.set("jwt_auth", token, { path: "/" });

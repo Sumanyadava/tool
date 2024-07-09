@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const Todo = ({ elem ,decoded }) => {
   // const longTaskArray = useSelector((state) => state.long.longtodos)
-  console.log(elem);
+  // console.log(elem);
   return (
     <div>
       <div className="  h-[600px] w-[400px] rounded-xl text-black bg-error overflow-hidden">

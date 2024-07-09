@@ -45,7 +45,7 @@ const Main = ({decoded}) => {
           }
         })
         .then((res) => {
-          console.log(res.data.data.longTodos);
+          // console.log(res.data.data.longTodos);
           dispatch(setLongTodos(res.data.data.longTodos));
           // toast.success("send");
         })

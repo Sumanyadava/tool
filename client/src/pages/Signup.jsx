@@ -37,7 +37,7 @@ const Signup = () => {
 
   const handleSubmitSign = (e) => {
     e.preventDefault();
-    console.log("signin called")
+    // console.log("signin called")
 
     if (
       userName.trim().length <= 2 ||
@@ -54,7 +54,7 @@ const Signup = () => {
         })
         .then((data) => {
           toast.success("Signup Success");
-          console.log(userName, userEmail, userPassword);
+          // console.log(userName, userEmail, userPassword);
           setUserName("");
           setUserEmail("");
           setUserPassword("");

@@ -65,7 +65,7 @@ const TodoShort = ({ elem, decoded,tasks }) => {
         },
         
       ).then(res => {
-        console.log(res.data.task.id)
+        // console.log(res.data.task.id)
         dispatch(addTask({ todoId: elem.id, taskText: trimText,taskId: res.data.task.id }));
         
         setShortText("");
@@ -102,14 +102,14 @@ const TodoShort = ({ elem, decoded,tasks }) => {
         
       }
     } catch (error) {
-      console.error("Error editing todo:", error);
+      // console.error("Error editing todo:", error);
       toast.error("Failed to edit todo");
     }
   };
 
   
   const handleDeleteTodo = async () => {
-    console.log(decoded?.userID, elem.id, elem.id);
+    // console.log(decoded?.userID, elem.id, elem.id);
 
     try {
       await axios.delete(API+"/delete/", {

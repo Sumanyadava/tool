@@ -22,7 +22,7 @@ const PlannerPage = () => {
   const currLongTodo = useSelector((state) => state.long.longTodos.find(todo => todo.id ==  todoId))
   
 
-  console.log(currLongTodo,todoId);
+  // console.log(currLongTodo,todoId);
   // console.warn({ ltask, decoded, todoId, todoname })
 
 
@@ -67,7 +67,7 @@ const PlannerPage = () => {
 */
   
   useEffect(() => {
-    setLongTodos({todoId,})
+    // setLongTodos({todoId,})
     setValue(ltask.plantext)
   }, []);
 
@@ -80,8 +80,9 @@ const PlannerPage = () => {
     ["bold", "italic", "underline", "strike"], // toggled buttons
     ["blockquote", "code-block"],
     // ["link", "image", "formula"],
+    ["link", "formula"]
 
-    [{ header: 1 }, { header: 2 }], // custom button values
+    // [{ header: 1 }, { header: 2 }], // custom button values
     [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
     [{ script: "sub" }, { script: "super" }], // superscript/subscript
     [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
@@ -90,7 +91,7 @@ const PlannerPage = () => {
     // [{ size: ["small", false, "large", "huge"] }], // custom dropdown
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-    [{ color: [] }, { background: ["black"] }], // dropdown with defaults from theme
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
     [{ font: [] }],
     [{ align: [] }],
 
@@ -145,7 +146,7 @@ const PlannerPage = () => {
           
           // setValue(res?.data.task.plantext)
 
-          console.log("planner after api ",ltask.plantext);
+          // console.log("planner after api ",ltask.plantext);
           setValue(ltask.plantext)
           // handleUpdateTask()
 
@@ -156,7 +157,7 @@ const PlannerPage = () => {
               plantext: res?.data.task.plantext,
             })
           );
-          toast.success('saved')
+          // toast.success('saved')
           navigate(-1)
           
           
@@ -221,7 +222,7 @@ const PlannerPage = () => {
           </h1>
         </div>
       </div>
-      <div className="details_bottom  flex flex-col md:flex-row  ">
+      <div className="details_bottom  flex flex-col md:flex-row   bg-[#181818]">
       
         <div className="details_left bg-[#181818]  w-full h-[80vh]">
           <h1
@@ -252,13 +253,14 @@ const PlannerPage = () => {
             theme="snow"
             value={valuePlanner}
             onChange={setValue}
-            className="h-[80%] mx-5 text-white"
+            modules={module}
+            className="h-[80%] mx-5 px-5 text-white"
             placeholder="write your documentation here..."
           />
 
 
-          <div className="btn_wrapper absolute right-16">
-            <button className="btn btn-accent m-3"  >
+          <div className="btn_wrapper absolute right-16 bottom-10 bg-whit">
+            <button className="btn btn-accent m-3  btn-disabled"  >
               edit
             </button>
             <button className="btn btn-primary m-3" onClick={handlePlannerSave}>

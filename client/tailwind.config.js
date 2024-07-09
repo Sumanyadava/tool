@@ -27,6 +27,7 @@ export default {
           warning: "#fde047",
 
           error: "#F84E79",
+          
         },
 
         mythemedark: {

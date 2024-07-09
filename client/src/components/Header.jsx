@@ -35,8 +35,8 @@ const Header = ({ decoded }) => {
           longname: inputSearch.trim(),
         })
         .then((res) => {
-          console.log(res);
-          console.log(res.data.newTodoData);
+          // console.log(res);
+          // console.log(res.data.newTodoData);
           const newltodoId = res.data.newTodoData.id;
           dispatch(
             addLongTodo({
@@ -65,7 +65,7 @@ const Header = ({ decoded }) => {
         .then((res) => {
           // console.log(res.data.newTodoData);
           const newtodoId = res.data.newTodoData.id;
-          console.log(newtodoId);
+          // console.log(newtodoId);
           dispatch(addTodo({ id: newtodoId, shortname: inputSearch.trim() }));
           setInputSearch("");
         })
