@@ -13,7 +13,9 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "*",
+    origin: ['https://togoclient.vercel.app/'],
+    
+    credentials: true,
   })
 );
 conntectDB();
