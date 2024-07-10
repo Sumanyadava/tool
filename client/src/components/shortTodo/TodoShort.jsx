@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const TodoShort = ({ elem, decoded,tasks }) => {
 
-  const API = "http://localhost:3002/api/todo"
+  const API = "https://toolserver.vercel.app/api/todo"
   const [shortText, setShortText] = useState("");
   const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ const TodoShort = ({ elem, decoded,tasks }) => {
     const fetchTasks = async () => {
       /*
       try {
-        const response = await axios.get("http://localhost:3002/api/todo/alltask", {
+        const response = await axios.get("https://toolserver.vercel.app/api/todo/alltask", {
           params: {
             userId: decoded,
             todoId: elem.id

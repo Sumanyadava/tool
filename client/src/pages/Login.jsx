@@ -36,7 +36,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
     // console.log("login called")
 
     axios
-      .post("http://localhost:3002/api/auth/login", {
+      .post("https://toolserver.vercel.app/api/auth/login", {
         email: userEmail,
         password: userPassword,
       })

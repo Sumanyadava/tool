@@ -38,7 +38,7 @@ const TodoInput = ({ elem, decoded,todoname }) => {
       toast.error("write something in select tag");
     } else {
       await axios
-        .post("http://localhost:3002/api/long/addtask", {
+        .post("https://toolserver.vercel.app/api/long/addtask", {
           userId: decoded?.userID,
           todoId: elem.id,
           plannertitle: trimLongText,
@@ -80,7 +80,7 @@ const TodoInput = ({ elem, decoded,todoname }) => {
       toast.error("edit failed as you write nothing");
     } else {
       await axios
-        .post("http://localhost:3002/api/long/edit", {
+        .post("https://toolserver.vercel.app/api/long/edit", {
           userId: decoded?.userID,
           todoId: elem.id,
           newLongname: editTodoVar,
@@ -94,7 +94,7 @@ const TodoInput = ({ elem, decoded,todoname }) => {
   };
 
   const handleDeleteTodo = async () => {
-    await axios.delete("http://localhost:3002/api/long/deletetodo", {
+    await axios.delete("https://toolserver.vercel.app/api/long/deletetodo", {
       data: {
         userId: decoded?.userID,
         todoId: elem.id,

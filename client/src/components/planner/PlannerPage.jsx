@@ -128,7 +128,7 @@ const PlannerPage = () => {
     // console.log(todoId, "taskid", ltask.id, valuePlanner);
     try {
       await axios
-        .put("http://localhost:3002/api/long/editlongtask", {
+        .put("https://toolserver.vercel.app/api/long/editlongtask", {
           userId: decoded?.userID,
           todoId,
           taskId: ltask.id,

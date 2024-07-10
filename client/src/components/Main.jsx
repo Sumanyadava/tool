@@ -21,7 +21,7 @@ const Main = ({decoded}) => {
 
     const handleShortTodo = async() => {
       await axios
-        .get("http://localhost:3002/api/todo/alltodo",{
+        .get("https://toolserver.vercel.app/api/todo/alltodo",{
           params:{
             userId:decoded?.userID
           }
@@ -39,7 +39,7 @@ const Main = ({decoded}) => {
 
     const handleLongTodo = async() => {
       await axios
-        .get("http://localhost:3002/api/long/setlong",{
+        .get("https://toolserver.vercel.app/api/long/setlong",{
           params:{
             userId:decoded?.userID
           }

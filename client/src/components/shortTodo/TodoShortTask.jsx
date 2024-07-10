@@ -6,7 +6,7 @@ import { editTask, iscompleteTask, removeTask } from "../../redux/slices/shortSl
 import axios from "axios";
 
 const TodoShortTask = ({ task, todoId, decoded }) => {
-  const API = "http://localhost:3002/api/todo";
+  const API = "https://toolserver.vercel.app/api/todo";
   const [check, setCheck] = useState(task.iscompleted);
   const dispatch = useDispatch();
 

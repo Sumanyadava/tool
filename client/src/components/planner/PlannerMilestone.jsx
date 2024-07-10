@@ -27,7 +27,7 @@ const PlannerMilestone = ({ elem, id }) => {
       /*
       dispatch(shortTaskAdd(id,trimText))
       console.log(id,shortText,shortTaskArray)
-      axios.post("http://localhost:3002/api/todo/setplanner", {
+      axios.post("https://toolserver.vercel.app/api/todo/setplanner", {
         milestone: [
           {
             

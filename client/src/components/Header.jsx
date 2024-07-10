@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Header = ({ decoded }) => {
-  const API = "http://localhost:3002/api";
+  const API = "https://toolserver.vercel.app/api";
 
   const cookies = new Cookies();
   const navigate = useNavigate();

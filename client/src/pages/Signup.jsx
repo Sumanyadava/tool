@@ -47,7 +47,7 @@ const Signup = () => {
       toast.error("Please fill all the fields");
     } else {
       axios
-        .post("http://localhost:3002/api/auth/register", {
+        .post("https://toolserver.vercel.app/api/auth/register", {
           name: userName,
           email: userEmail,
           password: userPassword,
