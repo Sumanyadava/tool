@@ -21,9 +21,9 @@ const PORT= process.env.PORT || 4000;
 
 
 //api register
-app.use('/api',router)
+app.use('/api',router) 
 
-
+ 
 
 
 

@@ -50,8 +50,8 @@ const Login = ({ setJwtToken,jwtToken }) => {
       })
       .catch((err) => {
         const errorMessage = err?.response?.data?.error || "server error"
-        // toast.error(errorMessage);
-        toast.error("login error")
+        toast.error(errorMessage);
+        // toast.error("login error")
         console.log(err);
       });
   };
