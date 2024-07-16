@@ -8,7 +8,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { FaGoogle } from "react-icons/fa";
 
-const Login = ({ setJwtToken,jwtToken }) => {
+const Login = ({ setJwtToken, jwtToken }) => {
   const [eye, setEye] = useState("password");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -21,7 +21,6 @@ const Login = ({ setJwtToken,jwtToken }) => {
       navigate("/home");
     }
   }, [navigate, cookies]);
-  
 
   const handleshow = () => {
     if (eye === "password") {
@@ -49,26 +48,31 @@ const Login = ({ setJwtToken,jwtToken }) => {
         navigate("/home");
       })
       .catch((err) => {
-        const errorMessage = err?.response?.data?.error || "server error"
+        const errorMessage = err?.response?.data?.error || "server error";
         toast.error(errorMessage);
         // toast.error("login error")
         console.log(err);
       });
   };
   return (
-    <div className="flex h-full w-full text-black font-Rc">
-      <div className="login_pict h-full bg-green-500 w-[50%] hidden sm:flex justify-center items-center">
-        <h1 className="text-[2vw]">Write message or Image</h1>
+    <div className="flex h-full w-full text-black font-Rc bg-white ">
+      <div className="login_picte h-full  w-[50%] hidden sm:flex justify-center items-center">
+        <div className="text-[4vw] font-extrabold text-gray-800">
+          <h1 className="login_pict text-gray-600">Start to
+             </h1>
+          <h1>Track your Progress</h1>
+        </div>
       </div>
-      <div className="login_message bg-red-400 w-full sm:w-[50%] flex items-center justify-center">
-        <div className="login_container bg-red-50 h-[500px] w-[350px] rounded-md">
+      <div className="login_message  w-full sm:w-[50%] flex items-center justify-around flex-col">
+        {/* <div className="sm:login_pict h-36 w-36"></div> */}
+        <div className="login_container  h-[500px] w-[350px] rounded-md  ">
           <h2 className="font-bold  text-5xl p-3">Welcome back !</h2>
           <p className="text-sm p-3  text-gray-500">
             Don't have an account?{" "}
             <Link to="/signin" className="text-black underline">
-              Create a new account now
+              Create a new account now.
             </Link>
-            It's free and take less 30 sec{" "}
+             It takes less then 30 sec
           </p>
 
           <form
@@ -81,7 +85,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
               value={userEmail}
               onChange={(e) => setUserEmail(e.target.value)}
               placeholder="Email"
-              className="bg-inherit border-b-2 border-gray-400 focus:border-black outline-none text-black font-Robo p-2"
+              className="bg-inherit border-2 border-gray-400 focus:border-black outline-none text-black font-Robo p-2"
               autoComplete="email"
             />
             <div className="pass relative">
@@ -90,7 +94,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
                 value={userPassword}
                 onChange={(e) => setUserPassword(e.target.value)}
                 placeholder="Password"
-                className="bg-inherit w-full border-b-2 border-gray-400 focus:border-black outline-none p-2 text-black font-Robo"
+                className="bg-inherit w-full border-2 border-gray-400 focus:border-black outline-none p-2 text-black font-Robo"
                 autoComplete="current-password"
               />
 
@@ -101,11 +105,11 @@ const Login = ({ setJwtToken,jwtToken }) => {
                 {eye == "text" ? <FaEyeSlash /> : <FaEye />}
               </i>
             </div>
-            <button className="btn" type="submit">
+            <button className="btn btn-neutral hover:bg-blue-600 " type="submit">
               Login
             </button>
             <button
-              className="btn border-black text-black hover:bg-gray-300 bg-inherit"
+              className="btn btn-disabled border-black text-black hover:bg-gray-300 bg-inherit"
               onClick={() => {
                 toast.error("not integrated");
               }}

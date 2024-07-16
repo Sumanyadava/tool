@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 import { FaGoogle } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
+import { useTypewriter, Cursor } from "react-simple-typewriter";
 
 const Signup = () => {
   const [userName, setUserName] = useState("");
@@ -34,6 +35,11 @@ const Signup = () => {
       setpassVal("text-red-300");
     }
   };
+
+  const [text] = useTypewriter({
+    words: ["Tasks", "Goals", "Side projects", "Habbits","growth","Progress", "Life"],
+    loop: {},
+  });
 
   const handleSubmitSign = (e) => {
     e.preventDefault();
@@ -68,9 +74,9 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex h-full w-full text-black">
-      <div className="signup_message bg-red-400 w-full sm:w-[50%] flex items-center justify-center">
-        <div className="signup_container bg-blue-600 max-h-[600px] w-[400px] rounded-md">
+    <div className="flex h-full w-full text-black bg-white">
+      <div className="signup_message  w-full sm:w-[50%] flex items-center justify-around flex-col">
+        <div className="signup_container max-h-[600px] w-[400px] rounded-md">
           <form
             action=""
             className="w-full h-full flex flex-col p-5"
@@ -78,12 +84,14 @@ const Signup = () => {
             autoComplete="on"
           >
             <button
-              className="btn border-black text-black hover:bg-gray-100 bg-inherit"
+              className="btn btn-disabled border-black text-black hover:bg-gray-100 bg-inherit"
               onClick={() => {
                 toast.error("not integrated");
               }}
             >
-              <i><FaGoogle /></i>
+              <i>
+                <FaGoogle />
+              </i>
               Signup with Google{" "}
             </button>
 
@@ -92,7 +100,7 @@ const Signup = () => {
 
             <label className="form-control w-full ">
               <div className="label">
-                <span className="">write your name</span>
+                <span className="">Write your name</span>
               </div>
               <input
                 type="text"
@@ -145,7 +153,6 @@ const Signup = () => {
                 autoComplete="current-password"
               />
 
-
               <span
                 className={`invisible peer-focus:visible pl-2 pt-2 label-text-alt  ${passVal}`}
               >
@@ -153,8 +160,9 @@ const Signup = () => {
               </span>
             </label>
 
-
-            <button className="btn mt-9">Sign up</button>
+            <button className="btn btn-neutral hover:bg-blue-600  mt-9">
+              Sign up
+            </button>
 
             <p className=" text-center mt-2">
               Been here before?{" "}
@@ -164,10 +172,17 @@ const Signup = () => {
             </p>
           </form>
         </div>
+        <div className="h-32 w-32"></div>
       </div>
 
-      <div className="signup_pict h-full bg-green-500 w-[50%] hidden sm:flex justify-center items-center">
-        <h1 className="text-[2vw]">Write your Message here Or Image</h1>
+      <div className="signup_pict h-full  w-[50%] hidden sm:flex justify-center items-center">
+        <div className="moto text-[3vw] ">
+          Keep track of your&ensp;
+          <span className="moto_change font-semibold">{text}</span>
+          <span style={{ color: "rgba(0, 0, 255, 0.7)" }}>
+            <Cursor />
+          </span>
+        </div>
       </div>
     </div>
   );

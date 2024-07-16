@@ -61,3 +61,11 @@
   text-overflow: ellipsis;
   font-size: calc(3vw + 3vh + 3vmin);
 }
+
+.login_pict{
+  background-image: url("./assets/task2.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  
+}
