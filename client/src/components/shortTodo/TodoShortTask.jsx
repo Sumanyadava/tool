@@ -69,7 +69,7 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
     <div className="rounded-xl">
       <div
         className={`subtodo_short flex justify-around  items-center p-2 m-4 transition-all duration-500 ease-in rounded-xl gap-4 ${
-          check ? "bg-[#1F75FE]" : "bg-[#99ecff]"
+          check ? "bg-[#00b7e1] " : "bg-[#ffffff]"
         } `}
       >
         <input
@@ -91,7 +91,7 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
             Delete
           </button>
         ) : (
-          <button className="btn bg-[#5fadf6]" onClick={handleEditShort}>
+          <button className="btn btn-outline " onClick={handleEditShort}>
             Edit
           </button>
         )}

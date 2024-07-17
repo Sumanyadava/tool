@@ -128,7 +128,7 @@ const TodoShort = ({ elem, decoded,tasks }) => {
 
   return (
     <div className="">
-      <div className=" h-[500px] w-[400px] rounded-xl bg-info ">
+      <div className=" h-[500px] w-[400px] rounded-xl bg-[#00ccff] ">
         <div className="input_short flex justify-around p-6 rounded-t-xl ">
           <input
             type="text"
@@ -157,7 +157,7 @@ const TodoShort = ({ elem, decoded,tasks }) => {
             </button>
           </div>
         </div>
-        <div className="overflow-y-scroll h-[80%] no-scrollbar">
+        <div className="overflow-y-scroll h-[80%] no-scrollbar  ">
           
           {/*todos.map((ele, index) => {
             return <TodoShortTask key={index} ele={ele} todoId={elem.id} />;
