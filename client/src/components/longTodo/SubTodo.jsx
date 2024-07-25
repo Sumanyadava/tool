@@ -16,7 +16,7 @@ const SubTodo = ({ ltask,decoded,todoId , todoname }) => {
         <div
           className="leftside w-[65%] h-full "
           onClick={(e) => {
-            console.log("longtask",ltask)
+            // console.log("longtask",ltask)
             
             navigate("/planner",{
               state:{ltask, decoded,  todoId ,todoname}

@@ -9,6 +9,7 @@ import { setLongTodos } from "../redux/slices/longSlices";
 
 const Main = ({decoded}) => {
   const dispatch = useDispatch();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   // reducers 
   const shortArray = useSelector((state) => state.short.todos)
@@ -21,7 +22,7 @@ const Main = ({decoded}) => {
 
     const handleShortTodo = async() => {
       await axios
-        .get("https://toolserver.vercel.app/api/todo/alltodo",{
+        .get(apiUrl +"/api/todo/alltodo",{
           params:{
             userId:decoded?.userID
           }
@@ -39,7 +40,7 @@ const Main = ({decoded}) => {
 
     const handleLongTodo = async() => {
       await axios
-        .get("https://toolserver.vercel.app/api/long/setlong",{
+        .get(apiUrl+"/api/long/setlong",{
           params:{
             userId:decoded?.userID
           }

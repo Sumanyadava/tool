@@ -17,7 +17,7 @@ function App() {
 
   const cookies = new Cookies();
 
-  const [jwtToken, setJwtToken] = useState(cookies.get("jwt_auth") || null);
+  const [jwtToken, setJwtToken] = useState(cookies.get("togo_auth") || null);
 
   let decoded;
   if (jwtToken) {
@@ -31,7 +31,7 @@ function App() {
   }
 
   useEffect(() => {
-    cookies.set("jwt_auth", jwtToken, { path: "/" });
+    cookies.set("togo_auth", jwtToken, { path: "/" });
   }, [jwtToken]);
 
   

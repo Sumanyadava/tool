@@ -6,7 +6,8 @@ import { editTask, iscompleteTask, removeTask } from "../../redux/slices/shortSl
 import axios from "axios";
 
 const TodoShortTask = ({ task, todoId, decoded }) => {
-  const API = "https://toolserver.vercel.app/api/todo";
+  const apiUrl = import.meta.env.VITE_API_URL;
+  
   const [check, setCheck] = useState(task.iscompleted);
   const dispatch = useDispatch();
 
@@ -24,7 +25,7 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
       toast.error("edit failed as you write nothing");
     } else {
       await axios
-        .put(API + "/edittask", {
+        .put(apiUrl + "/api/todo/edittask", {
           userId: decoded?.userID,
           todoId: todoId,
           taskId: task.id,
@@ -42,7 +43,7 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
 
   const handleToggleComplete = async () => {
     try {
-      const response = await axios.put(API + "/task/toggle", null, {
+      const response = await axios.put(apiUrl + "/api/todo/task/toggle", null, {
         params: { userId: decoded?.userID, todoId: todoId, taskId: task.id },
       });
       // console.log(response.data.message);
@@ -55,8 +56,8 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
 
   const handleDeleteTask = async () => {
     try {
-      const response = await axios.delete(`${API}/task/delete/${decoded?.userID}/${todoId}/${task.id}`);
-      console.log(response.data.message);
+      const response = await axios.delete(`${apiUrl}/api/todo/task/delete/${decoded?.userID}/${todoId}/${task.id}`);
+      // console.log(response.data.message);
       dispatch(removeTask({ todoId: todoId, taskId: task.id }));
       toast.success("Task deleted successfully");
     } catch (error) {
@@ -69,7 +70,7 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
     <div className="rounded-xl">
       <div
         className={`subtodo_short flex justify-around  items-center p-2 m-4 transition-all duration-500 ease-in rounded-xl gap-4 ${
-          check ? "bg-[#1F75FE]" : "bg-[#99ecff]"
+          check ? "bg-[#00b7e1] " : "bg-[#ffffff]"
         } `}
       >
         <input
@@ -91,7 +92,7 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
             Delete
           </button>
         ) : (
-          <button className="btn bg-[#5fadf6]" onClick={handleEditShort}>
+          <button className="btn btn-outline " onClick={handleEditShort}>
             Edit
           </button>
         )}

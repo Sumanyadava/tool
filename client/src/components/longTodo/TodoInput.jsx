@@ -7,6 +7,7 @@ import { addLongTask } from "../../redux/slices/longSlices";
 import axios from "axios";
 
 const TodoInput = ({ elem, decoded,todoname }) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [inputInTodo, setInputInTodo] = useState({
     title: "",
     deadline: "",
@@ -38,7 +39,7 @@ const TodoInput = ({ elem, decoded,todoname }) => {
       toast.error("write something in select tag");
     } else {
       await axios
-        .post("https://toolserver.vercel.app/api/long/addtask", {
+        .post(apiUrl+"/api/long/addtask", {
           userId: decoded?.userID,
           todoId: elem.id,
           plannertitle: trimLongText,
@@ -80,7 +81,7 @@ const TodoInput = ({ elem, decoded,todoname }) => {
       toast.error("edit failed as you write nothing");
     } else {
       await axios
-        .post("https://toolserver.vercel.app/api/long/edit", {
+        .post(apiUrl+"/api/long/edit", {
           userId: decoded?.userID,
           todoId: elem.id,
           newLongname: editTodoVar,
@@ -94,7 +95,7 @@ const TodoInput = ({ elem, decoded,todoname }) => {
   };
 
   const handleDeleteTodo = async () => {
-    await axios.delete("https://toolserver.vercel.app/api/long/deletetodo", {
+    await axios.delete(apiUrl+"/api/long/deletetodo", {
       data: {
         userId: decoded?.userID,
         todoId: elem.id,

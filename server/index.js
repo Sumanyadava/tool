@@ -11,13 +11,9 @@ dotenv.config();
 
 const app = express();
 app.use(express.json());
-app.use(
-  cors({
-    origin: ['https://togoclient.vercel.app/'],
-    
-    credentials: true,
-  })
-);
+
+app.use(cors());
+
 conntectDB();
 
 const PORT = process.env.PORT || 4000;

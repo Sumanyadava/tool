@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const TodoShort = ({ elem, decoded,tasks }) => {
 
-  const API = "https://toolserver.vercel.app/api/todo"
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [shortText, setShortText] = useState("");
   const dispatch = useDispatch();
 
@@ -57,7 +57,7 @@ const TodoShort = ({ elem, decoded,tasks }) => {
       toast.error("write something in short task");
     } else {
       await axios.post(
-        API + "/addtaskshort",
+        apiUrl + "/api/todo/addtaskshort",
         {
           userId: decoded?.userID,
           shortname: elem.shortname,
@@ -82,7 +82,7 @@ const TodoShort = ({ elem, decoded,tasks }) => {
         toast.error("edit failed as you write nothing");
       } else {
         await axios.put(
-          API +"/edit",
+          apiUrl +"/api/todo/edit",
           {
             shortname: editTodoVar,
           },
@@ -112,7 +112,7 @@ const TodoShort = ({ elem, decoded,tasks }) => {
     // console.log(decoded?.userID, elem.id, elem.id);
 
     try {
-      await axios.delete(API+"/delete/", {
+      await axios.delete(apiUrl+"/api/todo/delete/", {
         params: {
           userId: decoded?.userID,
           todoId: elem.id,
@@ -128,7 +128,7 @@ const TodoShort = ({ elem, decoded,tasks }) => {
 
   return (
     <div className="">
-      <div className=" h-[500px] w-[400px] rounded-xl bg-info ">
+      <div className=" h-[500px] w-[400px] rounded-xl bg-[#00ccff] ">
         <div className="input_short flex justify-around p-6 rounded-t-xl ">
           <input
             type="text"
@@ -157,7 +157,7 @@ const TodoShort = ({ elem, decoded,tasks }) => {
             </button>
           </div>
         </div>
-        <div className="overflow-y-scroll h-[80%] no-scrollbar">
+        <div className="overflow-y-scroll h-[80%] no-scrollbar  ">
           
           {/*todos.map((ele, index) => {
             return <TodoShortTask key={index} ele={ele} todoId={elem.id} />;

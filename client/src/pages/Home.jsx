@@ -14,7 +14,7 @@ const Home = ({ decoded }) => {
 
 
   const handleLogout = () => {
-    cookies.remove("jwt_auth", { path: "/" });
+    cookies.remove("togo_auth", { path: "/" });
     navigate("/");
   };
 

@@ -3,7 +3,7 @@ import NotAuth from '../pages/NotAuth'
 
 const authChecker = (ele) => {
   const cookies = new Cookies();
-  if (!cookies.get('jwt_auth')) {
+  if (!cookies.get('togo_auth')) {
     return (<NotAuth />) 
   }else{
     return ele;

@@ -11,7 +11,7 @@ const Todo = ({ elem ,decoded }) => {
   // console.log(elem);
   return (
     <div>
-      <div className="  h-[600px] w-[400px] rounded-xl text-black bg-error overflow-hidden">
+      <div className="  h-[500px] w-[400px] rounded-xl text-black bg-error overflow-hidden">
         
           <TodoInput elem={elem} decoded={decoded} />
 

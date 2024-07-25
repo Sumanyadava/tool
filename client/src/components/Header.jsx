@@ -9,7 +9,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Header = ({ decoded }) => {
-  const API = "https://toolserver.vercel.app/api";
+  // const API = "https://toolserver.vercel.app/api";
+  const apiUrl = import.meta.env.VITE_API_URL;
+  
+
+  const shortArray = useSelector((state) => state.short.todos);
+  const longArray = useSelector((state) => state.long.longTodos);
 
   const cookies = new Cookies();
   const navigate = useNavigate();
@@ -19,7 +24,7 @@ const Header = ({ decoded }) => {
   const [inputSearch, setInputSearch] = useState("");
 
   const handleLogout = () => {
-    cookies.remove("jwt_auth", { path: "/" });
+    cookies.remove("togo_auth", { path: "/" });
     navigate("/");
   };
 
@@ -30,7 +35,7 @@ const Header = ({ decoded }) => {
       toast.error("write something");
     } else {
       axios
-        .post(API + "/long/add", {
+        .post(apiUrl + "/api/long/add", {
           userId: userID,
           longname: inputSearch.trim(),
         })
@@ -58,7 +63,7 @@ const Header = ({ decoded }) => {
       toast.error("write something");
     } else {
       axios
-        .post(API + "/todo/createshorttodo", {
+        .post(apiUrl + "/api/todo/createshorttodo", {
           userId: userID,
           shortname: inputSearch.trim(),
         })
@@ -119,34 +124,51 @@ const Header = ({ decoded }) => {
           {inputSearch.trim().length !== 0 && (
             <div className="search_filter absolute top-28 left-1/2  -translate-x-1/2 p-4 w-[30%]  rounded-lg bg-accent font-semibold flex justify-evenly ">
               <div className="long_list bg-red-50 w-[50%] p-2 m-2 rounded-lg ">
-                {/*
-                longTodoArray
+                {
+                longArray
                   .filter((todo) =>
-                    todo
+                    todo.longname
                       .toLowerCase()
                       .includes(inputSearch.trim().toLowerCase())
                   )
                   .map((todo, index) => (
                     <div className="hover:bg-red-200 cursor-pointer rounded-lg pl-2" key={index}>
-                      {todo}
+                      {todo.longname}
                     </div>
                   ))
                   
-                  */}
+                  }
               </div>
 
               <div className="short_list ">
-                {/*shortTodoArray
+                { shortArray.filter((todo) =>
+                    todo.shortname
+                      .toLowerCase()
+                      .includes(inputSearch.trim().toLowerCase())
+                  ).map((todo, index) => (
+                    <div
+                      key={index}
+                      className="hover:bg-red-200 cursor-pointer rounded-lg pl-2"
+                    >
+                      {todo.shortname}
+                    </div>)
+                )
+                
+                }
+                {shortArray
                   .filter((todo) =>
-                    todo
+                    todo.shortname
                       .toLowerCase()
                       .includes(inputSearch.trim().toLowerCase())
                   )
                   .map((todo, index) => (
-                    <div key={index} className="hover:bg-red-200 cursor-pointer rounded-lg pl-2">{todo}</div>
-                  ))
-                    
-                  */}
+                    <div
+                      key={index}
+                      className="hover:bg-red-200 cursor-pointer rounded-lg pl-2"
+                    >
+                      {todo.shortname}
+                    </div>
+                  ))}
               </div>
               <button
                 className="btn btn-circle btn-neutral"

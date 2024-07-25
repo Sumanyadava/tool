@@ -6,29 +6,29 @@ import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
-import { editLongTask, setLongTask, setLongTodos } from "../../redux/slices/longSlices";
+import {
+  editLongTask,
+  setLongTask,
+  setLongTodos,
+} from "../../redux/slices/longSlices";
 import { toast } from "react-toastify";
-
-
 
 const PlannerPage = () => {
   const location = useLocation();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const { ltask, decoded, todoId, todoname } = location.state || {};
 
   const navigate = useNavigate();
 
-  
-
-  const currLongTodo = useSelector((state) => state.long.longTodos.find(todo => todo.id ==  todoId))
-  
+  const currLongTodo = useSelector((state) =>
+    state.long.longTodos.find((todo) => todo.id == todoId)
+  );
 
   // console.log(currLongTodo,todoId);
   // console.warn({ ltask, decoded, todoId, todoname })
 
-
   //react quill
   const [valuePlanner, setValue] = useState("");
-
 
   // const [taskIduse, setTaskIduse] = useState(null);
 
@@ -57,7 +57,7 @@ const PlannerPage = () => {
     
   };
   */
-  
+
   /*
   
   useEffect(() => {
@@ -65,26 +65,21 @@ const PlannerPage = () => {
   }, [ltask?.plantext,location.state,dispatch]);
   
 */
-  
+
   useEffect(() => {
     // setLongTodos({todoId,})
-    setValue(ltask.plantext)
+    setValue(ltask.plantext);
   }, []);
-
-  
-  
-
-
 
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
     ["blockquote", "code-block"],
     // ["link", "image", "formula"],
-    ["link", "formula"]
+    ["link", "formula"],
 
     // [{ header: 1 }, { header: 2 }], // custom button values
     [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-    [{ script: "sub" }, { script: "super" }], // superscript/subscript
+    // [{ script: "sub" }, { script: "super" }], // superscript/subscript
     [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
     [{ direction: "rtl" }], // text direction
 
@@ -122,13 +117,11 @@ const PlannerPage = () => {
     return () => clearInterval(interval);
   }, [ltask.deadline]);
 
-
-
   const handlePlannerSave = async () => {
     // console.log(todoId, "taskid", ltask.id, valuePlanner);
     try {
       await axios
-        .put("https://toolserver.vercel.app/api/long/editlongtask", {
+        .put(apiUrl+"/api/long/editlongtask", {
           userId: decoded?.userID,
           todoId,
           taskId: ltask.id,
@@ -141,13 +134,13 @@ const PlannerPage = () => {
         .then((res) => {
           // console.log("Task edited successfully:", res.data.task);
           // console.log(res?.data.task.plantext);
-          ltask.id = res.data.task._id
-          ltask.plantext = res?.data.task.plantext
-          
+          ltask.id = res.data.task._id;
+          ltask.plantext = res?.data.task.plantext;
+
           // setValue(res?.data.task.plantext)
 
           // console.log("planner after api ",ltask.plantext);
-          setValue(ltask.plantext)
+          setValue(ltask.plantext);
           // handleUpdateTask()
 
           dispatch(
@@ -158,21 +151,16 @@ const PlannerPage = () => {
             })
           );
           // toast.success('saved')
-          navigate(-1)
-          
-          
+          navigate(-1);
         })
         .catch((err) => {
-          console.log(err)
-          toast.error('jii')
-        }
-        
-      );
+          console.log(err);
+          toast.error("jii");
+        });
     } catch (error) {
       console.log("Error editing long task:");
     }
   };
-
 
   return (
     <div className=" h-screen w-full font-cusT ">
@@ -223,7 +211,6 @@ const PlannerPage = () => {
         </div>
       </div>
       <div className="details_bottom  flex flex-col md:flex-row   bg-[#181818]">
-      
         <div className="details_left bg-[#181818]  w-full h-[80vh]">
           <h1
             className={`heading font-semibold text-2xl  w-max p-2 m-2 rounded-xl shadow-lg ${
@@ -258,17 +245,14 @@ const PlannerPage = () => {
             placeholder="write your documentation here..."
           />
 
-
           <div className="btn_wrapper absolute right-16 bottom-10 bg-whit">
-            <button className="btn btn-accent m-3  btn-disabled"  >
-              edit
-            </button>
+            <button className="btn btn-accent m-3  btn-disabled">edit</button>
             <button className="btn btn-primary m-3" onClick={handlePlannerSave}>
               Save
             </button>
           </div>
         </div>
-{/*         
+        {/*         
         <div className="details_right md:w-1/3 w-full h-[80vh] bg-[#181818]">
            <PlannerMilestone elem={milestone} /> 
         </div> */}
