@@ -12,7 +12,7 @@ router.delete('/delete', deleteTodo);
 router.get("/alltask",getTasks)
 router.post('/addtaskshort',shortTask );
 router.put('/edittask', editTask);
-router.delete('/task/delete/', deleteTask);
+router.delete('/task/delete', deleteTask);
 router.put('/task/toggle',toggleTaskCompletion)
 
   

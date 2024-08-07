@@ -207,6 +207,7 @@ const PlannerPage = () => {
           </div>
           <h1 className="dynamic-title font-semibold text-white w-[50%] flex justify-end ">
             {ltask.plannertitle}
+            
           </h1>
         </div>
       </div>
@@ -234,6 +235,8 @@ const PlannerPage = () => {
               : ltask.impurg == "non imp & non urg"
               ? "non imporant & non urgent"
               : "bg-gray-500"}
+
+              
           </h1>
 
           <ReactQuill
@@ -246,8 +249,8 @@ const PlannerPage = () => {
           />
 
           <div className="btn_wrapper absolute right-16 bottom-10 bg-whit">
-            <button className="btn btn-accent m-3  btn-disabled">edit</button>
-            <button className="btn btn-primary m-3" onClick={handlePlannerSave}>
+            <button className="btn bg-gray-400 border-none m-3  ">Edit</button>
+            <button className="btn btn-primary  m-3" onClick={handlePlannerSave}>
               Save
             </button>
           </div>

@@ -55,9 +55,16 @@ const TodoShortTask = ({ task, todoId, decoded }) => {
   };
 
   const handleDeleteTask = async () => {
+    console.log(decoded?.userID, todoId, task.id);
     try {
-      const response = await axios.delete(`${apiUrl}/api/todo/task/delete/${decoded?.userID}/${todoId}/${task.id}`);
-      // console.log(response.data.message);
+      const response = await axios.delete(`http://localhost:3002/api/todo/task/delete`, {
+        params: {
+          userId: decoded?.userID,
+          todoId: todoId,
+          taskId: task.id
+        }
+      });
+      
       dispatch(removeTask({ todoId: todoId, taskId: task.id }));
       toast.success("Task deleted successfully");
     } catch (error) {

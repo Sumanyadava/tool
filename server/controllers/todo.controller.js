@@ -228,6 +228,7 @@ const getTasks = async (req, res) => {
     }
 
     const todo = user.todos.id(todoId); // Assuming todos are embedded in the user document
+
     if (!todo) {
       return res.status(404).json({ message: 'Todo not found' });
     }
@@ -285,28 +286,36 @@ const shortTask = async (req, res) => {
   }
 };
 
+
 // Delete a specific task for a specific todoId and userId
 const deleteTask = async (req, res) => {
   try {
     const { userId, todoId, taskId } = req.query;
+    console.log(userId, todoId, taskId);
 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    // Find the ShortTodo document for the user
+    let shortTodo = await ShortTodo.findOne({ userId });
+    if (!shortTodo) {
+      return res.status(404).json({ message: 'No shortTodo found for this user' });
     }
 
-    const todo = user.todos.id(todoId); // Assuming todos are embedded in the user document
-    if (!todo) {
+    // Find the todo item
+    const todoIndex = shortTodo.shortTodos.findIndex(todo => todo._id.toString() === todoId);
+    if (todoIndex === -1) {
       return res.status(404).json({ message: 'Todo not found' });
     }
 
-    const taskIndex = todo.tasks.findIndex(task => task._id.toString() === taskId); 
+    // Find the task item
+    const taskIndex = shortTodo.shortTodos[todoIndex].tasks.findIndex(task => task._id.toString() === taskId);
     if (taskIndex === -1) {
       return res.status(404).json({ message: 'Task not found' });
     }
 
-    todo.tasks.splice(taskIndex, 1);
-    await user.save();
+    // Remove the task
+    shortTodo.shortTodos[todoIndex].tasks.splice(taskIndex, 1);
+
+    // Save the updated ShortTodo document
+    await shortTodo.save();
 
     return res.status(200).json({ message: 'Task deleted successfully' });
   } catch (error) {

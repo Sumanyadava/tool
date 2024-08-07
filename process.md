@@ -157,4 +157,24 @@ hosting --
 
 create online database
 
+-------------------------------------------------------------------------------------------------------------
+fixing - delete tasks
+
+Version 2
+onjection - long term planning 
+
+
+Habbits: 
+Daily task: 
+yearly plan
+
+Long task : in progress,done, Add time , time completion in home , no time then add something
+
+search 
+
+settings: 
+max task: 3 
+Dashboard: Skills , Task , Future Goals
+        Your Task for today
+
 

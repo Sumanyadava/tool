@@ -9,7 +9,7 @@ const longRouter = require('./long.router.js')
 
 router.use('/auth',(userRouter))
 router.use('/todo',(todoRouter))
-router.use('/long',(longRouter))
+router.use('/long',(longRouter)) 
 
 
 module.exports = router;

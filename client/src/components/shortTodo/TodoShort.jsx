@@ -18,39 +18,9 @@ const TodoShort = ({ elem, decoded,tasks }) => {
     const todos = useSelector((state) => 
       state.short.todos
     ); 
-  // console.log(tasks);
+  
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      /*
-      try {
-        const response = await axios.get("https://toolserver.vercel.app/api/todo/alltask", {
-          params: {
-            userId: decoded,
-            todoId: elem.id
-          },
-        });
-        dispatch(setTasks({ todoId, tasks: response.data.tasks }));
-        toast.success("Tasks fetched successfully!");
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-        toast.error("Failed to fetch tasks.");
-      }
-        */
-    };
-
-    fetchTasks();
-  }, [dispatch, decoded]);
-
-  /*
-  useEffect(() => {
-    if (editShort.task == 'default Edit') {
-      setShortText("")
-    }else if (id == editShort.id) {
-      setShortText(editShort.task)
-    }
-  }, [editShort])*/
-
+  
   const handleShortAddTask = async() => {
     const trimText = shortText.trim();
     if (trimText.length == 0) {
